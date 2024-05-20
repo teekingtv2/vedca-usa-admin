@@ -4,7 +4,7 @@ const BodyRight = () => {
   return (
     <div className="col-span-1 w-[100%] flex justify-center items-center">
       <div className="bg-[#02050C] p-10 rounded-[20px]">
-        <div className="text-[11px] text-[#ffffffa9]">
+        <div className="text-[14px] text-[#ffffffa9]">
           If you would like to join my premium and start making money then drop me a message no
           upfront cost just 15% of the profits for my help once you made double your portfolio.
           <br />

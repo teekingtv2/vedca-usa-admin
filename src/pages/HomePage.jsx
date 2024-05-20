@@ -1,5 +1,4 @@
 import React from 'react';
-import HomeBody from '../components/HomeBody';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
