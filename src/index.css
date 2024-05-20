@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  body {
+    @apply bg-[#f0e5f5] text-[#bebebe] tracking-wide overflow-x-hidden w-[100vw] h-[100vh];
+    background-image: url('/images/bg-2.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* @apply bg-[#0f0f0f] text-[#f0e5f5] tracking-wide overflow-x-hidden; */
+    /* @apply text-[#f0e5f5] tracking-wide; */
+  }
+
+  ::-webkit-scrollbar {
+    width: 7px;
+    background: transparent;
+  }
+  ::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 5px grey; */
+    border-radius: 0px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0c0c0c;
+    border-radius: 10px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+
+  h1 {
+    @apply text-4xl sm:text-5xl md:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl sm:text-4xl;
+  }
+
+  li {
+    @apply cursor-pointer;
+  }
+
+  p {
+    @apply font-light leading-[1.59rem];
+  }
+
+  button {
+    @apply bg-gradient-to-r from-[#e55151] to-[#FBAD18] text-black;
+    padding: 10px 40px;
+    border-radius: 30px;
+  }
+}
+
+.upppercase {
+  text-transform: uppercase;
+}
+
+.title {
+  /* transform: scale(0.7, 1.2); */
+  display: inline-block;
+  line-height: 2.5rem;
+}
+
+.enter-btn {
+  border: 1px dotted #fff;
+  /* width: 100% !important; */
+  padding: 8px 10px;
+}
+
+.enter-btn:hover {
+  transform: scale(1.1);
+  transition: 1s ease-in-out;
+}
+
+.info {
+  border-top: 1px solid red;
+  border-bottom: 1px solid red;
+  border-radius: 7px;
+}
