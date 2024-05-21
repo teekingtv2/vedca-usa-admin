@@ -1,28 +1,33 @@
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AdPage from './pages/AdPage';
-import ImagesFooter from './components/ImagesFooter';
-import Footer from './components/Footer';
-import HomePage from './pages/HomePage';
+import DashboardPage from './pages/DashboardPage';
 import NotFound from './pages/404';
+import TransactionsPage from './pages/TransactionsPage';
+import EditProfilePage from './pages/EditProfilePage';
+import EditPasswordPage from './pages/EditPasswordPage';
+import RegisterPage from './pages/auth/RegisterPage';
+import LoginPage from './pages/auth/LoginPage';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from './pages/auth/ResetPasswordPage';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="App">
+    <>
       <BrowserRouter>
-        <div className="main">
+        <div className="">
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/add-1" element={<AdPage />} />
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/transactions" element={<TransactionsPage />} />
+            <Route path="/edit-profile" element={<EditProfilePage />} />
+            <Route path="/edit-password" element={<EditPasswordPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </div>
-        <ImagesFooter />
-        <Footer />
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 
