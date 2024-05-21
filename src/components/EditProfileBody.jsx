@@ -1,5 +1,4 @@
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
 import InputField from './forms/InputField';
 import CustomFormik from '../utils/CustomFormik';
 import { validateUpdateProfile } from '../utils/validate';
@@ -19,18 +18,6 @@ const EditProfileBody = ({ userData }) => {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       <div className=" w-[100%]">
         <div className="">
           <div className="flex justify-between items-end mb-10">

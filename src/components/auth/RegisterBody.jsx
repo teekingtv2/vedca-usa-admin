@@ -1,5 +1,4 @@
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
 import InputField from '../forms/InputField';
 import CustomFormik from '../../utils/CustomFormik';
 import { validateSignup } from '../../utils/validate';
@@ -19,18 +18,6 @@ const RegisterBody = ({ userData }) => {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       <div className="w-[100%] mx-auto">
         <div className="p-2 bg-[#111111da] overflow-x-scroll pt-[50px] pb-[50px] register-box">
           <div className="text-[24px] text-center mb-5 font-bold text-[#fff]">

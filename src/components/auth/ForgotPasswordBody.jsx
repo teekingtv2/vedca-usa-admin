@@ -1,5 +1,4 @@
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 import InputField from '../forms/InputField';
 import CustomFormik from '../../utils/CustomFormik';
 import { validateForgotPassword } from '../../utils/validate';
@@ -11,8 +10,6 @@ const ForgotPasswordBody = () => {
   const initialValues = forgotPasswordValues();
   const validationSchema = validateForgotPassword();
   const history = useNavigate();
-  const successNotification = (message) => toast.success(message);
-  const errorNotification = (message) => toast.error(message);
 
   const handleSubmit = (values) => {
     console.log(values);
