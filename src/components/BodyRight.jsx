@@ -2,9 +2,9 @@ import React from 'react';
 
 const BodyRight = () => {
   return (
-    <div className="col-span-1 w-[100%] flex justify-center items-center">
-      <div className="bg-[#02050C] p-10 rounded-[20px]">
-        <div className="text-[14px] text-[#ffffffa9]">
+    <div className=" col-span-1 w-[85%] ml-auto md:ml-0 md:w-[100%] flex justify-center items-center">
+      <div className="bg-[#030811] p-10 rounded-[30px] right-box">
+        <div className="text-[14px] text-[#bebebe]">
           If you would like to join my premium and start making money then drop me a message no
           upfront cost just 15% of the profits for my help once you made double your portfolio.
           <br />
