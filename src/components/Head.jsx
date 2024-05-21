@@ -17,6 +17,7 @@ const Head = ({ pageTitle }) => {
         name="author"
         content="Mudashir Tunde (Tee King) - Jaflah Software Development Company"
       />
+      <link rel="shortcut icon" href="/assets/images/logo.png" type="image/x-icon" />
     </Helmet>
   );
 };
