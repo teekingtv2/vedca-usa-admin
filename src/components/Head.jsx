@@ -18,6 +18,11 @@ const Head = ({ pageTitle }) => {
         content="Mudashir Tunde (Tee King) - Jaflah Software Development Company"
       />
       <link rel="shortcut icon" href="/assets/images/logo.png" type="image/x-icon" />
+      <meta name="theme-color" content="#040204" />
+      <meta name="msapplication-navbutton-color" content="#040204"></meta>
+      <meta content="#040204" name="msapplication-navbutton-color" />
+      <meta content="yes" name="apple-mobile-web-app-capable" />
+      <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
     </Helmet>
   );
 };

@@ -3,7 +3,7 @@ import React from 'react';
 const DashboardBody = () => {
   return (
     <div className="h-[100%] w-[100%]">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-10">
         <div className="dashCard">
           <img
             src="/assets/images/dahboard/balance-1.png"
