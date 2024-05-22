@@ -35,7 +35,7 @@ const ResetPasswordBody = () => {
         theme="colored"
       />
       <div className="w-[100%] mx-auto">
-        <div className="px-2 md:px-10 bg-[#111111da] overflow-x-scroll pt-[50px] pb-[50px] register-box">
+        <div className="w-[100%] px-2 md:px-10 bg-[#111111da] overflow-x-scroll pt-[50px] pb-[50px] register-box">
           <div className="text-[24px] text-center mb-5 font-bold text-[#fff]">
             Reset account password
           </div>
