@@ -20,7 +20,7 @@ const ResetPasswordBody = () => {
   return (
     <>
       <div className="w-[100%] mx-auto">
-        <div className="px-10 bg-[#111111da] overflow-x-scroll pt-[50px] pb-[50px] register-box">
+        <div className="px-2 md:px-10 bg-[#111111da] overflow-x-scroll pt-[50px] pb-[50px] register-box">
           <div className="text-[24px] text-center mb-5 font-bold text-[#fff]">
             Reset your account password
           </div>
@@ -35,7 +35,7 @@ const ResetPasswordBody = () => {
                 <InputField name="confirmPassword" placeholder="Confirm password" />
               </div>
               <SubmitButton title="Reset Password" className="mt-10 w-[100%]" />
-              <div className="text-[16px] text-center mt-[20px] flex justify-center gap-2">
+              <div className="text-[14px] md:text-[16px] text-center mt-[20px] flex justify-center gap-2">
                 Remembered password?
                 <Link to="/login" className="text-[#ffe6a6] font-bold">
                   Login instead
