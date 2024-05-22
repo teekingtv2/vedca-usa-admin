@@ -4,20 +4,38 @@ import CustomFormik from '../utils/CustomFormik';
 import { validateUpdateProfile } from '../utils/validate';
 import { updateProfileValues } from '../utils/initialValues';
 import SubmitButton from './forms/SubmitButton';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SelectCountryField from './forms/SelectCountryField';
 import SelectNetworkField from './forms/SelectNetworkField';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { successNotification } from '../utils/helpers';
 
 const EditProfileBody = ({ userData }) => {
   const initialValues = updateProfileValues(userData);
   const validationSchema = validateUpdateProfile();
+  const history = useNavigate();
 
   const handleSubmit = (values) => {
     console.log(values);
+    successNotification('Your profile has been successfully updated');
+    setTimeout(() => history('/'), 1000);
   };
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <div className=" w-[100%]">
         <div className="">
           <div className="flex justify-between items-end mb-10">

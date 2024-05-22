@@ -14,7 +14,7 @@ const SelectCountryField = ({ name, placeholder, ...rest }) => {
         onChange={handleChange(name)}
         onBlur={handleBlur(name)}
         placeholder={placeholder}
-        className="border rounded-md w-[100%] bg-transparent p-3 text-[14px]"
+        className="border rounded-md w-[100%] bg-transparent p-3 text-[14px] font-[400]"
         {...rest}
       >
         <option value="">Select Country of Residence</option>

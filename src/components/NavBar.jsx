@@ -9,9 +9,10 @@ import {
   FaWallet,
   FaSignOutAlt,
 } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
+  const history = useNavigate();
   const [nav, setNav] = useState(false);
   const [showConnectWallet, setShowConnectWallet] = useState(false);
   const [linkColor, setLinkColor] = useState('#1f2937');
@@ -26,6 +27,9 @@ const NavBar = () => {
 
   const onUpdateActiveLink = (value) => {
     setActiveLink(value);
+  };
+  const handleLogout = () => {
+    setTimeout(() => history('/login'), 1000);
   };
 
   return (
@@ -115,7 +119,7 @@ const NavBar = () => {
                 >
                   <li className="py-4 text-sm">Transactions</li>
                 </Link>
-                <div className="flex justify-start items-center gap-3">
+                <div onClick={handleLogout} className="flex justify-start items-center gap-3">
                   <li className="py-4 text-sm">Logout</li>
                   <span>
                     <FaSignOutAlt />

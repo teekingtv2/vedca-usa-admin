@@ -5,6 +5,9 @@ import { validateResetPassword } from '../../utils/validate';
 import { resetPasswordValues } from '../../utils/initialValues';
 import SubmitButton from '../forms/SubmitButton';
 import { Link, useNavigate } from 'react-router-dom';
+import { successNotification } from '../../utils/helpers';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPasswordBody = () => {
   const initialValues = resetPasswordValues();
@@ -13,16 +16,28 @@ const ResetPasswordBody = () => {
 
   const handleSubmit = (values) => {
     console.log(values);
-    // successNotification('Password successfully updated');
+    successNotification('Password successfully updated');
     setTimeout(() => history('/login'), 1000);
   };
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <div className="w-[100%] mx-auto">
         <div className="px-2 md:px-10 bg-[#111111da] overflow-x-scroll pt-[50px] pb-[50px] register-box">
           <div className="text-[24px] text-center mb-5 font-bold text-[#fff]">
-            Reset your account password
+            Reset account password
           </div>
           <div className="p-2 w-[100%]">
             <CustomFormik
@@ -37,7 +52,7 @@ const ResetPasswordBody = () => {
               <SubmitButton title="Reset Password" className="mt-10 w-[100%]" />
               <div className="text-[14px] md:text-[16px] text-center mt-[20px] flex justify-center gap-2">
                 Remembered password?
-                <Link to="/login" className="text-[#ffe6a6] font-bold">
+                <Link to="/login" className="text-[#ffe6a6]">
                   Login instead
                 </Link>
               </div>
