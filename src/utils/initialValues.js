@@ -19,14 +19,14 @@ export const signUpValues = () => {
   return initialValues;
 };
 
-export const updateProfileValues = (userData) => {
+export const updateProfileValues = (data) => {
   const initialValues = {
-    name: userData.name,
-    email: userData.email,
-    phone: userData.phone,
-    wallet: userData.wallet,
-    network: userData.network,
-    country: userData.country,
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    wallet: data.wallet,
+    network: data.network,
+    country: data.country,
   };
   return initialValues;
 };
@@ -51,6 +51,13 @@ export const resetPasswordValues = () => {
   const initialValues = {
     password: '',
     confirmPassword: '',
+  };
+  return initialValues;
+};
+
+export const otpValues = () => {
+  const initialValues = {
+    otp: '',
   };
   return initialValues;
 };

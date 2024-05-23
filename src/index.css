@@ -9,7 +9,7 @@ html {
 @layer base {
   body,
   .body {
-    @apply text-[#bebebe] tracking-wide overflow-x-hidden w-[100vw];
+    @apply text-[#bebebe] tracking-wide overflow-x-hidden w-[100vw] min-h-screen;
     background-image: url('/assets/images/bg-2.gif');
     background-repeat: no-repeat;
     background-size: cover;

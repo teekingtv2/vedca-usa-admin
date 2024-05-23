@@ -5,35 +5,43 @@ import { validateUpdatePassword } from '../utils/validate';
 import { editPaswordValues } from '../utils/initialValues';
 import SubmitButton from './forms/SubmitButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { successNotification } from '../utils/helpers';
+import { errorNotification, successNotification } from '../utils/helpers';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 const EditPasswordBody = () => {
   const initialValues = editPaswordValues();
   const validationSchema = validateUpdatePassword();
   const history = useNavigate();
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values);
-    successNotification('Password successfully updated');
-    setTimeout(() => history('/'), 1000);
+    const payload = {
+      oldPassword: values.oldPassword,
+      newPassword: values.newPassword,
+    };
+
+    const response = await axios.put(
+      `${import.meta.env.VITE_API_URL}/user-profile/update-password`,
+      payload,
+      { withCredentials: true }
+    );
+    console.log(response);
+    try {
+      if (response.status === 200) {
+        const data = response.data;
+        successNotification(data.message);
+        history('/');
+      } else {
+        errorNotification(response?.data?.error);
+      }
+    } catch (error) {
+      errorNotification(error?.response?.data?.error);
+    }
   };
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       <div className=" w-[100%]">
         <div className="">
           <div className="flex justify-between items-end mb-10">

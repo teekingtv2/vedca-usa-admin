@@ -80,3 +80,15 @@ export const validateResetPassword = () => {
   });
   return validationSchema;
 };
+
+export const validateOtp = () => {
+  const validationSchema = yup.object().shape({
+    otp: yup
+      .string()
+      .trim()
+      .min(4, 'OTP is incomplete')
+      .max(5, 'OTP digits cannot be more than 4 characters long')
+      .required('Please provide the OTP'),
+  });
+  return validationSchema;
+};

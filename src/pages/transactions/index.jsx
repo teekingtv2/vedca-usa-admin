@@ -1,7 +1,7 @@
 import React from 'react';
-import Head from '../components/Head';
-import NavBar from '../components/NavBar';
-import TransactionsBody from '../components/TransactionsBody';
+import Head from '../../components/Head';
+import NavBar from '../../components/NavBar';
+import TransactionsBody from '../../components/TransactionsBody';
 
 const TransactionsPage = () => {
   return (

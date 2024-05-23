@@ -7,35 +7,48 @@ import SubmitButton from '../forms/SubmitButton';
 import { Link, useNavigate } from 'react-router-dom';
 import SelectCountryField from '../forms/SelectCountryField';
 import SelectNetworkField from '../forms/SelectNetworkField';
-import { successNotification } from '../../utils/helpers';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { errorNotification, successNotification } from '../../utils/helpers';
+import axios from 'axios';
 
-const RegisterBody = ({ userData }) => {
-  const initialValues = signUpValues(userData);
+const RegisterBody = () => {
+  const initialValues = signUpValues();
   const validationSchema = validateSignup();
   const history = useNavigate();
 
-  const handleSubmit = (values) => {
-    console.log(values);
-    successNotification('Account successfully created');
-    setTimeout(() => history('/login'), 1000);
+  const handleSubmit = async (values) => {
+    const payload = {
+      name: values.name,
+      email: values.email,
+      wallet: values.wallet,
+      network: values.network,
+      country: values.country,
+      phone: values.phone,
+      password: values.password,
+    };
+
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/user-auth/signup`, payload);
+    console.log(response);
+    try {
+      if (response.status === 200) {
+        const data = response.data;
+        successNotification(data.message);
+        setTimeout(
+          () =>
+            history('/verify-account', {
+              state: { userId: data.userId },
+            }),
+          3000
+        );
+      } else {
+        errorNotification(response?.data?.error);
+      }
+    } catch (error) {
+      errorNotification(error?.response?.data?.error);
+    }
   };
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
       <div className="w-[100%] mx-auto">
         <div className="p-2 bg-[#111111da] overflow-x-scroll pt-[50px] pb-[50px] register-box">
           <div className="text-[24px] text-center mb-5 font-bold text-[#fff]">

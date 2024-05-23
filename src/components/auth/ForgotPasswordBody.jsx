@@ -4,27 +4,39 @@ import CustomFormik from '../../utils/CustomFormik';
 import { validateForgotPassword } from '../../utils/validate';
 import { forgotPasswordValues } from '../../utils/initialValues';
 import SubmitButton from '../forms/SubmitButton';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { successNotification } from '../../utils/helpers';
+import { errorNotification, successNotification } from '../../utils/helpers';
+import axios from 'axios';
 
 const ForgotPasswordBody = () => {
   const initialValues = forgotPasswordValues();
   const validationSchema = validateForgotPassword();
-  const history = useNavigate();
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values);
-    successNotification('Reset Password link has been sent to your email');
-    setTimeout(() => history('/reset-password'), 1000);
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/user-auth/forgot-password`, {
+      email: values.email,
+    });
+    console.log(response);
+    try {
+      if (response.status === 200) {
+        const data = response.data;
+        successNotification(data.message);
+      } else {
+        errorNotification(response?.data?.error);
+      }
+    } catch (error) {
+      errorNotification(error?.response?.data?.error);
+    }
   };
 
   return (
     <>
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

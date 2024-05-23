@@ -1,7 +1,7 @@
 import React from 'react';
-import Head from '../components/Head';
-import NavBar from '../components/NavBar';
-import EditPasswordBody from '../components/EditPasswordBody';
+import Head from '../../components/Head';
+import NavBar from '../../components/NavBar';
+import EditPasswordBody from '../../components/EditPasswordBody';
 
 const EditPasswordPage = () => {
   return (

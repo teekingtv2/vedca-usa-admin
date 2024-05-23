@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { AiOutlineArrowDown, AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import {
-  FaTwitter,
-  FaFacebook,
-  FaInstagram,
-  FaArrowCircleRight,
-  FaArrowDown,
-  FaWallet,
-  FaSignOutAlt,
-} from 'react-icons/fa';
+import React, { useState } from 'react';
+import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import { FaWallet, FaSignOutAlt } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { errorNotification, successNotification } from '../utils/helpers';
+import useFetchCredential from '../api/useFetchCredential';
+axios.defaults.withCredentials = true;
 
-const NavBar = () => {
+const NavBar = ({ name }) => {
   const history = useNavigate();
   const [nav, setNav] = useState(false);
   const [showConnectWallet, setShowConnectWallet] = useState(false);
   const [linkColor, setLinkColor] = useState('#1f2937');
   const [activeLink, setActiveLink] = useState('home');
+
+  const { data, loading } = useFetchCredential(`user-profile/user`);
 
   const handleNavToggle = () => {
     setNav(!nav);
@@ -28,8 +26,20 @@ const NavBar = () => {
   const onUpdateActiveLink = (value) => {
     setActiveLink(value);
   };
-  const handleLogout = () => {
-    setTimeout(() => history('/login'), 1000);
+  const handleLogout = async () => {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/user-auth/logout`);
+    console.log(response);
+    try {
+      if (response.status === 200) {
+        const data = response.data;
+        successNotification(data.message);
+        setTimeout(() => history('/login'), 2000);
+      } else {
+        errorNotification(response?.data?.error);
+      }
+    } catch (error) {
+      errorNotification(error?.response?.data?.error);
+    }
   };
 
   return (
@@ -48,7 +58,9 @@ const NavBar = () => {
               onClick={handleNavToggle}
               className="text-sm font-bold hover:border-b flex justify-center items-center cursor-pointer"
             >
-              <span className="hidden md:block mr-2 md:text-[17px]">User Menu</span>
+              <span className="hidden md:block mr-2 md:text-[17px]">
+                {data ? data?.data?.name.split(' ')[0] : 'User'}'s Menu
+              </span>
               <span>
                 <AiOutlineMenu size={25} className="" />
               </span>

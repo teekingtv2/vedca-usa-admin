@@ -1,8 +1,11 @@
 import React from 'react';
-import Head from '../../components/Head';
-import LoginBody from '../../components/auth/LoginBody';
+import Head from '../../../components/Head';
+import LoginBody from '../../../components/auth/LoginBody';
+import checkLogin from '../../../api/checkLogin';
 
-const RegisterPage = () => {
+const LoginPage = () => {
+  checkLogin();
+
   return (
     <>
       <Head pageTitle="Login to your account" />
@@ -15,4 +18,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

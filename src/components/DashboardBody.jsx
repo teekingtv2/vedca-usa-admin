@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DashboardBody = () => {
+const DashboardBody = ({ userData }) => {
   return (
     <div className="h-[100%] w-[100%]">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-10">
@@ -11,7 +11,7 @@ const DashboardBody = () => {
             className="w-[25%] md:w-[30%]"
           />
           <div className="">
-            <div className="dashCardTitle">$5,001.50</div>
+            <div className="dashCardTitle">${userData.deposite_balance}</div>
             <div className="text-[14px] md:text-[15px]">Deposit Balance</div>
             <div className="text-[11px] text-[#FFE6A6]">Amount Deposited</div>
           </div>
@@ -23,7 +23,7 @@ const DashboardBody = () => {
             className="w-[25%] md:w-[30%]"
           />
           <div className="">
-            <div className="dashCardTitle">$2,001.50</div>
+            <div className="dashCardTitle">${userData.profit_balance}</div>
             <div className="text-[14px] md:text-[15px]">Trading Balance</div>
             <div className="text-[11px] text-[#FFE6A6]">Total Profit Made</div>
           </div>
@@ -35,7 +35,7 @@ const DashboardBody = () => {
             className="w-[25%] md:w-[30%]"
           />
           <div className="">
-            <div className="dashCardTitle">$2,001.50</div>
+            <div className="dashCardTitle">${userData.total_balance}</div>
             <div className="text-[14px] md:text-[15px]">Total Balance</div>
             <div className="text-[11px] text-[#FFE6A6]">Withdrawable Balance</div>
           </div>

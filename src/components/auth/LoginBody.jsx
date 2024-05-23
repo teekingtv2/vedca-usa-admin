@@ -7,17 +7,62 @@ import SubmitButton from '../forms/SubmitButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { successNotification } from '../../utils/helpers';
+import { errorNotification, successNotification } from '../../utils/helpers';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
-const LoginBody = ({ userData }) => {
-  const initialValues = loginValues(userData);
+const LoginBody = () => {
+  const initialValues = loginValues();
   const validationSchema = validateLogin();
   const history = useNavigate();
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log(values);
-    successNotification('Successfully logged in');
-    setTimeout(() => history('/'), 1000);
+
+    const payload = {
+      email: values.email,
+      password: values.password,
+    };
+
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/user-auth/login`, payload);
+    console.log(response);
+    try {
+      if (response.status === 200) {
+        const data = response.data;
+        if (data.message === 'Unverified email') {
+          console.log(data.userId);
+          errorNotification('Account not yet verified.');
+          const otpRes = await axios.post(
+            `${import.meta.env.VITE_API_URL}/user-auth/resend-verification-otp`,
+            { userId: data.userId }
+          );
+          setTimeout(() => {
+            if (otpRes.status === 200) {
+              const otpData = response.data;
+              successNotification(
+                'OTP has been sent to your email address. Provide the OTP in the next screen'
+              );
+              setTimeout(
+                () =>
+                  history('/', {
+                    state: { userId: otpData.userId },
+                  }),
+                3000
+              );
+            } else {
+              errorNotification(otpRes?.data?.error);
+            }
+          }, 2000);
+        } else {
+          successNotification(data.message);
+          setTimeout(() => history('/'), 1500);
+        }
+      } else {
+        errorNotification(response?.data?.error);
+      }
+    } catch (error) {
+      errorNotification(error?.response?.data?.error);
+    }
   };
 
   return (
