@@ -44,7 +44,7 @@ const LoginBody = () => {
               );
               setTimeout(
                 () =>
-                  history('/', {
+                  history('/verify-account', {
                     state: { userId: otpData.userId },
                   }),
                 3000
