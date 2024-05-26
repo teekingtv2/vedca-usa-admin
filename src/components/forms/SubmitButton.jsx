@@ -1,17 +1,25 @@
+import { Button } from '@mui/material';
 import { useFormikContext } from 'formik';
 
-const SubmitButton = ({ title, className }) => {
+const SubmitButton = ({ title, isNoneMobile }) => {
   const { handleSubmit, isSubmitting } = useFormikContext();
 
   return (
-    <button
-      type="button"
+    <Button
+      type="submit"
+      color="secondary"
+      variant="contained"
+      sx={{
+        fontSize: '16px',
+        fontWeight: '600',
+        padding: '10px 20px',
+        width: isNoneMobile ? '300px' : '100%',
+      }}
       onClick={handleSubmit}
-      className={className}
       disabled={isSubmitting ? true : false}
     >
       {title}
-    </button>
+    </Button>
   );
 };
 

@@ -12,7 +12,7 @@ export const validateLogin = () => {
   return validationSchema;
 };
 
-export const validateSignup = () => {
+export const validateAddUser = () => {
   const phoneRegExp = /^[\+][0-9]{7,15}$/;
   const validationSchema = yup.object({
     name: yup.string().trim().required('Name is missing'),
@@ -33,7 +33,7 @@ export const validateSignup = () => {
   return validationSchema;
 };
 
-export const validateUpdateProfile = () => {
+export const validateUpdateUser = () => {
   const phoneRegExp = /^[\+][0-9]{7,15}$/;
   const validationSchema = yup.object({
     name: yup.string().trim().required('Name is missing'),
@@ -44,6 +44,33 @@ export const validateUpdateProfile = () => {
       .string()
       .matches(phoneRegExp, 'Invalid phone number. Follow the sample')
       .required('Phone number is missing'),
+  });
+  return validationSchema;
+};
+
+export const validateUpdateUserBalance = () => {
+  const validationSchema = yup.object({
+    deposite_balance: yup.string().trim().required('Deposit balance is missing'),
+    total_balance: yup.string().trim().required('Wallet total balance is missing'),
+    profit_balance: yup.string().trim().required('Profit profit is missing '),
+  });
+  return validationSchema;
+};
+
+export const validateAddUserTransaction = () => {
+  const validationSchema = yup.object({
+    transaction_amount: yup.string().trim().required('Transaction amount is missing'),
+    wallet_balance: yup.string().trim().required('Wallet balance is missing'),
+    type: yup.string().trim().required('Please select transaction type '),
+  });
+  return validationSchema;
+};
+
+export const validateEditTransaction = () => {
+  const validationSchema = yup.object({
+    transaction_amount: yup.string().trim().required('Transaction amount is missing'),
+    wallet_balance: yup.string().trim().required('Wallet balance is missing'),
+    profit_amount: yup.string().trim().required('Profit amount is missing '),
   });
   return validationSchema;
 };
@@ -89,6 +116,35 @@ export const validateOtp = () => {
       .min(4, 'OTP is incomplete')
       .max(5, 'OTP digits cannot be more than 4 characters long')
       .required('Please provide the OTP'),
+  });
+  return validationSchema;
+};
+
+export const validateAddAdmin = () => {
+  const phoneRegExp = /^[\+][0-9]{7,15}$/;
+  const validationSchema = yup.object({
+    username: yup.string().trim().required('Name is missing'),
+    email: yup.string().email('Invalid email').required('Email is missing'),
+    password: yup.string().trim().min(8, 'Password is too short').required('Password is missing'),
+    confirmPassword: yup
+      .string()
+      .required('Confirm Account Password')
+      .oneOf([yup.ref('password'), null], 'Passwords must match'),
+  });
+  return validationSchema;
+};
+
+export const validateUpdateAdmin = () => {
+  const validationSchema = yup.object({
+    username: yup.string().trim().required('Name is missing'),
+    email: yup.string().email('Invalid email').required('Email is missing'),
+  });
+  return validationSchema;
+};
+export const validateUpdateWallet = () => {
+  const validationSchema = yup.object({
+    erc20: yup.string().trim().required('erc20 wallet address is missing'),
+    bitcoin: yup.string().trim().required('bitcoin wallet address is missing'),
   });
   return validationSchema;
 };

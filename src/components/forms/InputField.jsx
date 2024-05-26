@@ -1,3 +1,4 @@
+import { Box, TextField } from '@mui/material';
 import { useFormikContext } from 'formik';
 import { useState } from 'react';
 import { FaEye } from 'react-icons/fa';
@@ -15,39 +16,57 @@ const InputField = ({ name, placeholder, type = 'text', className, disabled = fa
   };
 
   return (
-    <div className="col-span-1">
+    <>
       {type === 'password' ? (
-        <div className="border rounded-md w-[100%] bg-transparent flex items-center gap-1 pe-1">
-          <input
-            value={value}
-            placeholder={placeholder}
-            onChange={handleChange(name)}
-            onBlur={handleBlur(name)}
+        <Box
+          fullWidth
+          sx={{
+            background: '#293040',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <TextField
+            variant="filled"
             type={showPassword ? 'text' : 'password'}
-            disabled={disabled}
-            className="border-0 w-[90%] bg-transparent p-3 text-[14px] font-[400]"
-            autoComplete="off"
-            {...rest}
+            label={placeholder}
+            onBlur={handleBlur(name)}
+            onChange={handleChange(name)}
+            value={value}
+            error={!!isInputTouched && !!error}
+            helperText={isInputTouched && error}
+            placeholder={placeholder}
+            sx={{ width: '92%' }}
           />
-          <FaEye size={17} onClick={togglePassword} />
-        </div>
+          <Box
+            sx={{
+              width: '8%',
+              height: '100%',
+              display: 'flex',
+              // background: '#293040',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <FaEye size={20} onClick={togglePassword} />
+          </Box>
+        </Box>
       ) : (
-        <input
-          value={value}
-          placeholder={placeholder}
-          onChange={handleChange(name)}
+        <TextField
+          fullWidth
+          variant="filled"
+          type="text"
+          label={placeholder}
           onBlur={handleBlur(name)}
-          type={type}
-          disabled={disabled}
-          className="border rounded-md w-[100%] bg-transparent p-3 text-[14px] font-[400]"
-          autoComplete="off"
-          {...rest}
+          onChange={handleChange(name)}
+          value={value}
+          error={!!isInputTouched && !!error}
+          helperText={isInputTouched && error}
+          placeholder={placeholder}
         />
       )}
-      {error && isInputTouched ? (
-        <div className="text-red-500 text-[12px] font-400 lowercase">{error}</div>
-      ) : null}
-    </div>
+    </>
   );
 };
 

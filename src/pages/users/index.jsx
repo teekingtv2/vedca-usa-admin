@@ -7,7 +7,10 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import RemoveRedEyeOutlined from '@mui/icons-material/RemoveRedEyeOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import PersonAddOutlined from '@mui/icons-material/PersonAddOutlined';
 import Header from '../../components/global/Header';
+import styled from 'styled-components';
+
 import axios from 'axios';
 import useFetchCredential from '../../api/useFetchCredential';
 import Head from '../../components/global/Head';
@@ -19,21 +22,25 @@ import ProgressCircle from '../../components/dashboard/ProgressCircle';
 
 axios.defaults.withCredentials = true;
 
-const UserTransactions = () => {
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
+
+const Users = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { data, loading, error } = useFetchCredential(`user-management/fetch-all-transactions`);
+  const { data, loading, error } = useFetchCredential(`user-management/fetch-all-users`);
 
-  const deleteTransaction = async (id) => {
+  const deleteUser = async (id) => {
     try {
       await axios
-        .delete(`${import.meta.env.VITE_API_URL}/user-management/delete-transaction/${id}`, {
+        .delete(`${import.meta.env.VITE_API_URL}/user-management/delete-user/${id}`, {
           withCredentials: true,
         })
         .then((response) => {
           console.log('response', response);
           if (response.status === 200) {
-            successNotification('Successfully deleted the transaction record');
+            successNotification('Successfully deleted user record');
             setTimeout(() => {
               window.location.reload();
             }, 1500);
@@ -44,12 +51,28 @@ const UserTransactions = () => {
     }
   };
 
-  console.log('data:', data?.data);
-
   const columns = [
     {
+      // field: 'username',
+      headerName: 'Avatar',
+      flex: 0.6,
+      renderCell: () => {
+        return (
+          <Box>
+            <img
+              height="30px"
+              width="30px"
+              src="/assets/images/user.avif"
+              alt=""
+              style={{ cursor: 'pointer' }}
+            />
+          </Box>
+        );
+      },
+    },
+    {
       field: 'name',
-      headerName: 'Owner',
+      headerName: 'Name',
       flex: 1,
       cellClassName: 'name-column--cell',
     },
@@ -61,27 +84,53 @@ const UserTransactions = () => {
       align: 'left',
     },
     {
-      field: 'transaction_amount',
-      headerName: 'Amount',
-      flex: 1,
-      renderCell: ({ row: { transaction_amount } }) => {
-        return <Box>{formatter.format(transaction_amount)}</Box>;
-      },
-    },
-    {
-      field: 'wallet_balance',
-      headerName: 'Balance',
-      flex: 1,
-      renderCell: ({ row: { wallet_balance } }) => {
-        return <Box>{formatter.format(wallet_balance)}</Box>;
-      },
-    },
-    {
-      field: 'type',
-      headerName: 'Transaction',
+      field: 'deposite_balance',
+      headerName: 'Deposit',
       headerAlign: 'left',
-      flex: 0.7,
+      flex: 1,
+      renderCell: ({ row: { deposite_balance } }) => {
+        return <Typography>{formatter.format(deposite_balance)}</Typography>;
+      },
+    },
+    {
+      field: 'country',
+      headerName: 'country',
+      headerAlign: 'left',
+      flex: 1,
       align: 'left',
+    },
+    {
+      field: 'phone',
+      headerName: 'Phone',
+      headerAlign: 'left',
+      flex: 1,
+      align: 'left',
+    },
+    {
+      field: 'status',
+      headerName: 'Status',
+      flex: 1.3,
+      renderCell: ({ row: { status } }) => {
+        return (
+          <Box
+            width="60%"
+            m="0 0 0 0"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            backgroundColor={status === 'Active' ? colors.blueAccent[400] : colors.redAccent[700]}
+            borderRadius="4px"
+          >
+            {status === 'Active' ? <AdminPanelSettingsOutlinedIcon /> : <LockOpenOutlinedIcon />}
+            <Typography
+              color={status === 'Active' ? colors.grey[100] : colors.grey[100]}
+              sx={{ ml: '5px' }}
+            >
+              {status}
+            </Typography>
+          </Box>
+        );
+      },
     },
     {
       headerName: 'Actions',
@@ -97,19 +146,19 @@ const UserTransactions = () => {
             justifyContent="space-between"
             borderRadius="4px"
           >
-            <Link to={`/transaction-details/${params.row._id}`}>
+            <Link to={`/user-profile/${params.row._id}`}>
               <IconButton>
                 <RemoveRedEyeOutlined sx={{ color: `${colors.grey[100]} !important` }} />
               </IconButton>
             </Link>
-            <Link to={`/edit-transaction/${params.row._id}`}>
+            <Link to={`/edit-user/${params.row._id}`}>
               <IconButton>
                 <EditOutlinedIcon sx={{ color: `${colors.grey[100]} !important` }} />
               </IconButton>
             </Link>
             <IconButton
               onClick={() => {
-                deleteTransaction(params.row._id);
+                deleteUser(params.row._id);
               }}
             >
               <DeleteOutlinedIcon />
@@ -122,13 +171,16 @@ const UserTransactions = () => {
 
   return (
     <>
-      <Head pageTitle="Transactions" />
+      <Head pageTitle="Users" />
       <Sidebar />
       <main className="content">
         <Topbar />
         <Box className="main" m="20px">
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="TRANSACTIONS" subtitle="Managing the user transactions" />
+            <Header title="USERS" subtitle="Managing the useraccounts" />
+            <Box>
+              <LinkButton to="/add-user" title="Add New User" type="user" />
+            </Box>
           </Box>
           <Box
             m="40px 0 0 0"
@@ -179,7 +231,7 @@ const UserTransactions = () => {
                 checkboxSelection
                 components={{ Toolbar: GridToolbar }}
                 getRowId={(row) => {
-                  return row._id;
+                  return row.email;
                 }}
               />
             )}
@@ -190,4 +242,4 @@ const UserTransactions = () => {
   );
 };
 
-export default UserTransactions;
+export default Users;

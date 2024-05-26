@@ -1,50 +1,80 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import DashboardPage from './pages/dashboard/index.jsx';
-import NotFound from './pages/404';
-import LoginPage from './pages/auth/login/index.jsx';
-import ForgotPasswordPage from './pages/auth/forgot-password/index.jsx';
-import EditProfilePage from './pages/edit-profile';
+import { ColorModeContext, useMode } from './theme';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import EditPasswordPage from './pages/edit-password/index.jsx';
-import TransactionsPage from './pages/transactions/index.jsx';
-import VerifyEmailPage from './pages/auth/verify-email/index.jsx';
-import ResetPasswordPage from './pages/auth/reset-password/index.jsx';
-import RegisterPage from './pages/auth/register/index.jsx';
+import Dashboard from './pages/dashboard/index.jsx';
+import NotFound from './pages/404.jsx';
+import Admins from './pages/admins/index.jsx';
+import AddAdmin from './pages/admins/AddAdmin.jsx';
+import AdminProfile from './pages/admins/admin-profile.jsx';
+import EditAdmin from './pages/admins/edit-admin.jsx';
+import Users from './pages/users/index.jsx';
+import AddUser from './pages/users/add-user.jsx';
+import UserProfile from './pages/users/user-profile.jsx';
+import EditUser from './pages/users/edit-user.jsx';
+import UserTransactions from './pages/transactions/index.jsx';
+import AddTransaction from './pages/transactions/add-transaction.jsx';
+import EditTransaction from './pages/transactions/edit-transaction.jsx';
+import TransactionDetails from './pages/transactions/transaction-details.jsx';
+import EditUserBalance from './pages/users/edit-balance.jsx';
+import Login from './pages/auth/login/index.jsx';
+import Profile from './pages/settings/profile.jsx';
+import EditProfile from './pages/settings/edit-profile.jsx';
+import WalletAddress from './pages/settings/wallet-address.jsx';
 
 function App() {
-  return (
-    <>
-      <BrowserRouter>
-        <div className="">
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
-          <Routes>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/transactions" element={<TransactionsPage />} />
-            <Route path="/edit-profile" element={<EditProfilePage />} />
-            <Route path="/edit-password" element={<EditPasswordPage />} />
+  const [theme, colorMode] = useMode();
 
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/verify-account" element={<VerifyEmailPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </>
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+
+        <BrowserRouter>
+          <div className="app">
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              // theme="colored"
+            />
+            <Routes>
+              <Route path="/login" element={<Login />} />
+
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/admins" element={<Admins />} />
+              <Route path="/add-admin" element={<AddAdmin />} />
+              <Route path="/admin-profile/:id" element={<AdminProfile />} />
+              <Route path="/edit-profile/:id" element={<EditAdmin />} />
+
+              <Route path="/users" element={<Users />} />
+              <Route path="/add-user" element={<AddUser />} />
+              <Route path="/user-profile/:id" element={<UserProfile />} />
+              <Route path="/edit-user/:id" element={<EditUser />} />
+              <Route path="/update-balance/:id" element={<EditUserBalance />} />
+
+              <Route path="/transactions" element={<UserTransactions />} />
+              <Route path="/add-transaction/:id" element={<AddTransaction />} />
+              <Route path="/edit-transaction/:id" element={<EditTransaction />} />
+              <Route path="/transaction-details/:id" element={<TransactionDetails />} />
+
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/edit" element={<EditProfile />} />
+              <Route path="/wallet" element={<WalletAddress />} />
+
+              <Route path="/*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 

@@ -6,7 +6,7 @@ export const loginValues = () => {
   return initialValues;
 };
 
-export const signUpValues = () => {
+export const addUserValues = () => {
   const initialValues = {
     name: '',
     email: '',
@@ -19,14 +19,44 @@ export const signUpValues = () => {
   return initialValues;
 };
 
-export const updateProfileValues = (data) => {
+export const updateUserValues = (data) => {
   const initialValues = {
-    name: data.name,
-    email: data.email,
-    phone: data.phone,
-    wallet: data.wallet,
-    network: data.network,
-    country: data.country,
+    name: data ? data.name : '',
+    email: data ? data.email : '',
+    phone: data ? data.phone : '',
+    wallet: data ? data.wallet : '',
+    network: data ? data.network : '',
+    country: data ? data.country : '',
+    password: '',
+    confirmPassword: '',
+  };
+  return initialValues;
+};
+
+export const addUserTransactionValues = () => {
+  const initialValues = {
+    transaction_amount: '',
+    profit_amount: '',
+    wallet_balance: '',
+    type: '',
+  };
+  return initialValues;
+};
+
+export const editTransactionValues = (data) => {
+  const initialValues = {
+    transaction_amount: data ? data.transaction_amount : '',
+    profit_amount: data ? data.profit_amount : '',
+    wallet_balance: data ? data.wallet_balance : '',
+  };
+  return initialValues;
+};
+
+export const updateUserBalanceValues = (data) => {
+  const initialValues = {
+    deposite_balance: data ? data.deposite_balance : '',
+    total_balance: data ? data.total_balance : '',
+    profit_balance: data ? data.profit_balance : '',
   };
   return initialValues;
 };
@@ -58,6 +88,32 @@ export const resetPasswordValues = () => {
 export const otpValues = () => {
   const initialValues = {
     otp: '',
+  };
+  return initialValues;
+};
+
+export const addAdminValues = () => {
+  const initialValues = {
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+  return initialValues;
+};
+
+export const updateAdminProfileValues = (data) => {
+  const initialValues = {
+    username: data ? data.username : '',
+    email: data ? data.email : '',
+    password: '',
+  };
+  return initialValues;
+};
+export const updateWalletValues = (data) => {
+  const initialValues = {
+    erc20: data ? data.erc20 : '',
+    bitcoin: data ? data.bitcoin : '',
   };
   return initialValues;
 };

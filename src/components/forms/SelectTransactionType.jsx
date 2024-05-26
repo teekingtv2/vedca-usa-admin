@@ -1,7 +1,7 @@
 import { Box, InputLabel, MenuItem, Select } from '@mui/material';
 import { useFormikContext } from 'formik';
 
-const SelectNetworkField = ({ name, placeholder, ...rest }) => {
+const SelectTransactionType = ({ name, placeholder, ...rest }) => {
   const { errors, values, touched, handleBlur, handleChange } = useFormikContext();
 
   const value = values[name];
@@ -43,12 +43,12 @@ const SelectNetworkField = ({ name, placeholder, ...rest }) => {
           height: '50px',
         }}
       >
-        <MenuItem value="">Select blockchain network</MenuItem>
-        <MenuItem value="ERC20">ERC20</MenuItem>
-        <MenuItem value="Bitcoin">Bitcoin</MenuItem>
+        <MenuItem value="">Select transaction type</MenuItem>
+        <MenuItem value="deposit">deposit/trading</MenuItem>
+        <MenuItem value="withdrawal">withdrawal</MenuItem>
       </Select>
     </Box>
   );
 };
 
-export default SelectNetworkField;
+export default SelectTransactionType;
