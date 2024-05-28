@@ -97,7 +97,7 @@ const Sidebar = () => {
                   alt="admin avatar"
                   height="100px"
                   width="100px"
-                  src={`/public/assets/images/user.avif`}
+                  src={`/assets/images/user.avif`}
                   style={{ cursor: 'pointer', borderRadius: '50%' }}
                 />
               </Box>
