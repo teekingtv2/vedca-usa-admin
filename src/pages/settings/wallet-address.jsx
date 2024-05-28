@@ -55,17 +55,15 @@ const WalletAddress = () => {
 
   return (
     <>
-      <Head pageTitle="Edit Admin Profile" />
+      <Head pageTitle="Edit Wallet Addresses" />
       <Sidebar />
       <main className="content">
         <Topbar />
         <Box className="main" m="20px">
           <Box>
             <Header
-              title={`Edit ${
-                data ? data.data.username + "'s Profile" : 'Edit Team Member Profile'
-              }`}
-              subtitle="You can edit the profile data for this team member"
+              title="Edit Wallet Addresses"
+              subtitle="You can update the wallet addresses here. These adresses are what show on the users dashboard and they can make direct deposit into them."
             />
           </Box>
           {data && (
@@ -90,7 +88,7 @@ const WalletAddress = () => {
               </Box>
 
               <Box display="flex" justifyContent="end" mt="50px">
-                <SubmitButton title="Update Network" isNoneMobile={isNoneMobile} />
+                <SubmitButton title="Update Wallet Addresses" isNoneMobile={isNoneMobile} />
               </Box>
             </CustomFormik>
           )}

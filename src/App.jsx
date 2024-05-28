@@ -22,6 +22,10 @@ import Login from './pages/auth/login/index.jsx';
 import Profile from './pages/settings/profile.jsx';
 import EditProfile from './pages/settings/edit-profile.jsx';
 import WalletAddress from './pages/settings/wallet-address.jsx';
+import AdPosts from './pages/ads/index.jsx';
+import SingleAdPost from './pages/ads/single-ad-post.jsx';
+import CreateAdPost from './pages/ads/create-ad-post.jsx';
+import EditAdPost from './pages/ads/edit-ad-post.jsx';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -68,6 +72,11 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/edit" element={<EditProfile />} />
               <Route path="/wallet" element={<WalletAddress />} />
+
+              <Route path="/ad-posts" element={<AdPosts />} />
+              <Route path="/ad-post/:id" element={<SingleAdPost />} />
+              <Route path="/create-ad-post" element={<CreateAdPost />} />
+              <Route path="/edit-ad-post/:id" element={<EditAdPost />} />
 
               <Route path="/*" element={<NotFound />} />
             </Routes>

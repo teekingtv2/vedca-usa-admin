@@ -121,7 +121,6 @@ export const validateOtp = () => {
 };
 
 export const validateAddAdmin = () => {
-  const phoneRegExp = /^[\+][0-9]{7,15}$/;
   const validationSchema = yup.object({
     username: yup.string().trim().required('Name is missing'),
     email: yup.string().email('Invalid email').required('Email is missing'),
@@ -145,6 +144,29 @@ export const validateUpdateWallet = () => {
   const validationSchema = yup.object({
     erc20: yup.string().trim().required('erc20 wallet address is missing'),
     bitcoin: yup.string().trim().required('bitcoin wallet address is missing'),
+  });
+  return validationSchema;
+};
+
+export const validateCreateAdPost = () => {
+  const validationSchema = yup.object({
+    title: yup.string().trim().required('Post title is missing'),
+    whatsapp: yup.string().trim().required('Whatsapp group link is missing'),
+    telegram: yup.string().trim().required('Telegram group link is missing'),
+  });
+  return validationSchema;
+};
+export const validateUpdateAdPost = () => {
+  const linkValid = /^[a-zA-Z0-9\-]+$/;
+  const validationSchema = yup.object({
+    title: yup.string().trim().required('Post title is missing'),
+    whatsapp: yup.string().trim().required('Whatsapp group link is missing'),
+    telegram: yup.string().trim().required('Telegram group link is missing'),
+    slug: yup
+      .string()
+      .trim()
+      .matches(linkValid, 'Invalid ad link. Can contain alphabets, numbers and -')
+      .required('Ad page link is missing'),
   });
   return validationSchema;
 };

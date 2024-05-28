@@ -18,10 +18,10 @@ const RowOne = () => {
     error: userCountError,
   } = useFetchCredential(`user-management/fetch-all-users`);
   const {
-    data: adminCountData,
-    loading: adminCountLoading,
-    error: adminCountError,
-  } = useFetchCredential(`admin-management/fetch-all-admins`);
+    data: adCountData,
+    loading: adCountLoading,
+    error: adCountError,
+  } = useFetchCredential(`general/all-ad-posts`);
   const {
     data: transactionCountData,
     loading: transactionCountLoading,
@@ -49,8 +49,8 @@ const RowOne = () => {
           />
         )}
         {userCountLoading && <ProgressCircle progress="0.5" />}
-        {adminCountError && (
-          <div style={{ color: 'red !important', fontSize: '20px' }}>{adminCountError}</div>
+        {userCountError && (
+          <div style={{ color: 'red !important', fontSize: '20px' }}>{userCountError}</div>
         )}
       </Box>
 
@@ -61,18 +61,18 @@ const RowOne = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {adminCountData && (
+        {adCountData && (
           <StatBox
-            title={adminCountData.data.length}
-            subtitle="Registered admins"
+            title={adCountData.data.length}
+            subtitle="Ads Published"
             progress="0.75"
             increase="+14%"
             icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
           />
         )}
-        {adminCountLoading && <ProgressCircle progress="0.5" />}
-        {adminCountError && (
-          <div style={{ color: 'red !important', fontSize: '20px' }}>{adminCountError}</div>
+        {adCountLoading && <ProgressCircle progress="0.5" />}
+        {adCountError && (
+          <div style={{ color: 'red !important', fontSize: '20px' }}>{adCountError}</div>
         )}
       </Box>
 

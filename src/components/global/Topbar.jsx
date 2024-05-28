@@ -7,7 +7,7 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { errorNotification, successNotification } from '../../utils/helpers';
 
@@ -15,9 +15,10 @@ const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const history = useNavigate();
 
   const handleLogout = async () => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/user-auth/logout`);
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/admin-auth/logout`);
     console.log(response);
     try {
       if (response.status === 200) {

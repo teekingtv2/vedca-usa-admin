@@ -117,3 +117,22 @@ export const updateWalletValues = (data) => {
   };
   return initialValues;
 };
+
+export const createAdPostValues = () => {
+  const initialValues = {
+    title: '',
+    whatsapp: '',
+    telegram: '',
+  };
+  return initialValues;
+};
+
+export const updateAdPostValues = (data) => {
+  const initialValues = {
+    title: data ? data.title : 'fff',
+    whatsapp: data ? data.whatsapp : '',
+    telegram: data ? data.telegram : '',
+    slug: data ? data.slug : '',
+  };
+  return initialValues;
+};

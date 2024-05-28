@@ -13,15 +13,17 @@ import MenuItemComp from './MenuItemComp';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import axios from 'axios';
 import { errorNotification, successNotification } from '../../../utils/helpers';
-import { Person2Outlined, WalletOutlined } from '@mui/icons-material';
+import { AdUnitsOutlined, Person2Outlined, WalletOutlined } from '@mui/icons-material';
 import useFetchCredential from '../../../api/useFetchCredential';
 import ProgressCircle from '../../dashboard/ProgressCircle';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState('Dashboard');
+  const history = useNavigate();
 
   const { data, loading, error } = useFetchCredential(`admin-auth/get-admin`);
 
@@ -146,6 +148,13 @@ const Sidebar = () => {
             <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
               Data
             </Typography>
+            <MenuItemComp
+              title="Manage Ad Posts"
+              to="/ad-posts"
+              icon={<AdUnitsOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <MenuItemComp
               title="Manage Team"
               to="/admins"
