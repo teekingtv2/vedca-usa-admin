@@ -15,7 +15,7 @@ const useFetchCredential = (url) => {
       .get(`${import.meta.env.VITE_API_URL}/${url}`, { withCredentials: true })
       .then((response) => {
         console.log(response);
-        if (response.status !== 200) {
+        if (response.status === 209) {
           window.location.replace(`/login`);
         }
         setData(response.data);
@@ -27,7 +27,7 @@ const useFetchCredential = (url) => {
           setLoading(false);
           setError(err?.response?.data?.error);
           errorNotification(err?.response?.data?.error);
-          if (err?.response.status === 400) {
+          if (err?.response.status === 209) {
             setTimeout(() => {
               window.location.replace(`/login`);
             }, 2000);

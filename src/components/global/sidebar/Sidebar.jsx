@@ -17,6 +17,7 @@ import { AdUnitsOutlined, Person2Outlined, WalletOutlined } from '@mui/icons-mat
 import useFetchCredential from '../../../api/useFetchCredential';
 import ProgressCircle from '../../dashboard/ProgressCircle';
 import { useNavigate } from 'react-router-dom';
+axios.defaults.withCredentials = true;
 
 const Sidebar = () => {
   const theme = useTheme();
@@ -28,7 +29,9 @@ const Sidebar = () => {
   const { data, loading, error } = useFetchCredential(`admin-auth/get-admin`);
 
   const handleLogout = async () => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/admin-auth/logout`);
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/admin-auth/logout`, null, {
+      withCredentials: true,
+    });
     console.log(response);
     try {
       if (response.status === 200) {

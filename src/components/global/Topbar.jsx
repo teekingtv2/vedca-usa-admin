@@ -10,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { errorNotification, successNotification } from '../../utils/helpers';
+axios.defaults.withCredentials = true;
 
 const Topbar = () => {
   const theme = useTheme();
@@ -18,7 +19,9 @@ const Topbar = () => {
   const history = useNavigate();
 
   const handleLogout = async () => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/admin-auth/logout`);
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/admin-auth/logout`, null, {
+      withCredentials: true,
+    });
     console.log(response);
     try {
       if (response.status === 200) {
