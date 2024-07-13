@@ -18,7 +18,7 @@ import SelectCountryField from '../../components/forms/SelectCountryField';
 
 axios.defaults.withCredentials = true;
 
-const AddUser = () => {
+const AddMember = () => {
   const isNoneMobile = useMediaQuery('(min-width:600px)');
 
   const initialValues = addUserValues();
@@ -28,18 +28,22 @@ const AddUser = () => {
   const handleSubmit = async (values) => {
     console.log(values);
     const payload = {
-      name: values.name,
+      title: values.title,
+      first_name: values.first_name,
+      last_name: values.last_name,
       email: values.email,
-      wallet: values.wallet,
-      network: values.network,
-      country: values.country,
       phone: values.phone,
-      password: values.password,
+      address: values.address,
+      city: values.city,
+      state: values.state,
+      zip_code: values.zip_code,
+      country: values.country,
+      info: values.info,
     };
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/user-auth/signup`,
+        `${import.meta.env.VITE_API_URL_GENERAL}/website/register`,
         payload,
         { withCredentials: true }
       );
@@ -47,7 +51,7 @@ const AddUser = () => {
       if (response.status === 200) {
         const data = response.data;
         successNotification(data.message);
-        history('/users');
+        history('/members');
       } else {
         errorNotification(response?.data?.error);
       }
@@ -58,13 +62,13 @@ const AddUser = () => {
 
   return (
     <>
-      <Head pageTitle="Add New User" />
+      <Head pageTitle="Add New Member" />
       <Sidebar />
       <main className="content">
         <Topbar />
         <Box className="main" m="20px">
           <Box>
-            <Header title="ADD NEW USER" subtitle="Create a new User Account" />
+            <Header title="ADD NEW MEMBER" subtitle="Create a new Member Account" />
           </Box>
           <CustomFormik
             initialValues={initialValues}
@@ -82,18 +86,21 @@ const AddUser = () => {
               }}
               m="40px 0 0 0"
             >
-              <InputField name="name" placeholder="Your full name" />
+              <InputField name="title" placeholder="Title" />
+              <InputField name="first_name" placeholder="First name" />
+              <InputField name="last_name" placeholder="Last name" />
               <InputField name="email" placeholder="Your email address" />
-              <InputField name="wallet" placeholder="Wallet address" />
-              <SelectNetworkField name="network" placeholder="Select blockchain network" />
-              <SelectCountryField name="country" placeholder="Select Country of Residence" />
               <InputField name="phone" placeholder="Phone number (with country code)" />
-              <InputField name="password" placeholder="Account password" type="password" />
-              <InputField name="confirmPassword" placeholder="Confirm password" type="password" />
+              <InputField name="address" placeholder="Address" />
+              <InputField name="city" placeholder="City" />
+              <InputField name="state" placeholder="State" />
+              <InputField name="zip_code" placeholder="Zip code" />
+              <SelectCountryField name="country" placeholder="Select Country of Residence" />
+              <InputField name="info" placeholder="Info" />
             </Box>
 
             <Box display="flex" justifyContent="end" mt="50px">
-              <SubmitButton title="Add New User Account" isNoneMobile={isNoneMobile} />
+              <SubmitButton title="Add New Member Account" isNoneMobile={isNoneMobile} />
             </Box>
           </CustomFormik>
         </Box>
@@ -102,4 +109,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default AddMember;

@@ -6,66 +6,36 @@ import useFetchCredential from '../../api/useFetchCredential';
 import Head from '../../components/global/Head';
 import Sidebar from '../../components/global/sidebar/Sidebar';
 import Topbar from '../../components/global/Topbar';
-import { successNotification } from '../../utils/helpers';
-import LinkButton from '../../components/global/LinkButton';
+import { dateFormatter, formatter } from '../../utils/helpers';
 import ProgressCircle from '../../components/dashboard/ProgressCircle';
 
-const SingleAdPost = () => {
+const DonationDetails = () => {
   const isNoneMobile = useMediaQuery('(min-width:600px)');
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { id } = useParams();
-  const { data, loading, error } = useFetchCredential(`general/single-ad-post/${id}`);
-
-  const copyAdLink = () => {
-    const txt = data && `${import.meta.env.VITE_AD_WEBSITE_URL}/${data.data.slug}`;
-    const input = document.createElement('input');
-    input.value = txt;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
-    successNotification(`Ad post link copied`);
-  };
-  const copyWhatsAppLink = () => {
-    const txt = data && data.data.whatsapp;
-    const input = document.createElement('input');
-    input.value = txt;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
-    successNotification(`WhatsApp Group link copied`);
-  };
-  const copyTelegramLink = () => {
-    const txt = data && data.data.telegram;
-    const input = document.createElement('input');
-    input.value = txt;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
-    successNotification(`Telegram Group link copied`);
-  };
+  const { data, loading, error } = useFetchCredential(`general/single-donation/${id}`);
 
   return (
     <>
-      <Head pageTitle="Ad Post" />
+      <Head pageTitle="Donation Details" />
       <Sidebar />
       <main className="content">
         <Topbar />
         <Box className="main" m="20px">
           <Box>
             <Header
-              title={`Managing Ad - ${data ? data.data.title.split(' ')[0] : 'Managing Ad Post'}`}
-              subtitle={`You can manage this ad post - ${data && data.data.title} here`}
+              title={`Details of - ${
+                data ? data.data.first_name + "'s donation" : 'Donation details'
+              }`}
+              subtitle={`Here is the donation details as done by ${data && data.data.first_name}`}
             />
           </Box>
 
           <Box marginTop="60px" display="flex" justifyContent="center" alignItems="center">
             <Box
               backgroundColor={colors.primary[400]}
-              width={isNoneMobile ? '60%' : '100%'}
+              width={isNoneMobile ? '50%' : '100%'}
               sx={{
                 margin: '0px 0px 50px 0px',
               }}
@@ -91,35 +61,14 @@ const SingleAdPost = () => {
                     }}
                   >
                     <Box
-                      // display="flex"
-                      justifyContent="center"
-                      padding="5px"
-                      sx={{
-                        border: `1px dashed ${colors.grey[600]}`,
-                        margin: '5px 0',
-                        textAlign: 'center',
-                      }}
-                    >
-                      <Typography
-                        sx={{ color: `${colors.grey[200]}`, fontSize: '24px', fontWeight: '600' }}
-                      >
-                        {data.data.title}
-                      </Typography>
-                      (Tap on links to copy them)
-                    </Box>
-
-                    <Box
                       display="flex"
                       justifyContent="space-between"
                       padding="5px"
                       sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
                     >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Ad Post Link:</Typography>
-                      <Typography
-                        onClick={copyAdLink}
-                        sx={{ color: `${colors.greenAccent[600]}`, fontWeight: '600' }}
-                      >
-                        {`${import.meta.env.VITE_AD_WEBSITE_URL}/${data.data.slug}`}
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Donated by:</Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
+                        {`${data.data.first_name} ${data.data.last_name}`}
                       </Typography>
                     </Box>
                     <Box
@@ -128,12 +77,9 @@ const SingleAdPost = () => {
                       padding="5px"
                       sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
                     >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>WhatsApp Group:</Typography>
-                      <Typography
-                        onClick={copyWhatsAppLink}
-                        sx={{ color: `${colors.greenAccent[600]}`, fontWeight: '600' }}
-                      >
-                        {data.data.whatsapp}
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Done on:</Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
+                        {dateFormatter(data.data.createdAt)}
                       </Typography>
                     </Box>
                     <Box
@@ -142,12 +88,9 @@ const SingleAdPost = () => {
                       padding="5px"
                       sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
                     >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Telegram Group:</Typography>
-                      <Typography
-                        onClick={copyTelegramLink}
-                        sx={{ color: `${colors.greenAccent[600]}`, fontWeight: '600' }}
-                      >
-                        {data.data.telegram}
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Email:</Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
+                        {data.data.email}
                       </Typography>
                     </Box>
                     <Box
@@ -156,24 +99,40 @@ const SingleAdPost = () => {
                       padding="5px"
                       sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
                     >
-                      <Box
-                        dangerouslySetInnerHTML={{
-                          __html: data.data.content,
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Amount donated:</Typography>
+                      <Typography
+                        sx={{
+                          color: `${colors.greenAccent[200]}`,
+                          fontWeight: '600',
+                          fontSize: '18px',
                         }}
-                      ></Box>
+                      >
+                        {formatter.format(data.data.amount)}
+                      </Typography>
                     </Box>
-
                     <Box
                       display="flex"
-                      justifyContent="center"
+                      justifyContent="space-between"
                       padding="5px"
-                      sx={{ margin: '20px 0' }}
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
                     >
-                      {/* <LinkButton
-                        to={`/edit-ad-post/${data.data._id}`}
-                        title="Edit Add"
-                        type="pen"
-                      /> */}
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Phone Number:</Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
+                        {data.data.phone}
+                      </Typography>
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      padding="5px"
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                    >
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>
+                        Donator's address:
+                      </Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
+                        {data.data.address}
+                      </Typography>
                     </Box>
                   </Box>
                 </Card>
@@ -186,4 +145,4 @@ const SingleAdPost = () => {
   );
 };
 
-export default SingleAdPost;
+export default DonationDetails;

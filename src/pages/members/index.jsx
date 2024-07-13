@@ -22,19 +22,15 @@ import ProgressCircle from '../../components/dashboard/ProgressCircle';
 
 axios.defaults.withCredentials = true;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-`;
-
-const Users = () => {
+const Members = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { data, loading, error } = useFetchCredential(`user-management/fetch-all-users`);
+  const { data, loading, error } = useFetchCredential(`member-management/fetch-all-members`);
 
-  const deleteUser = async (id) => {
+  const deleteMember = async (id) => {
     try {
       await axios
-        .delete(`${import.meta.env.VITE_API_URL}/user-management/delete-user/${id}`, {
+        .delete(`${import.meta.env.VITE_API_URL}/member-management/delete-member/${id}`, {
           withCredentials: true,
         })
         .then((response) => {
@@ -71,9 +67,15 @@ const Users = () => {
       },
     },
     {
-      field: 'name',
-      headerName: 'Name',
-      flex: 1,
+      field: 'first_name',
+      headerName: 'First Name',
+      flex: 0.7,
+      cellClassName: 'name-column--cell',
+    },
+    {
+      field: 'last_name',
+      headerName: 'Last Name',
+      flex: 0.7,
       cellClassName: 'name-column--cell',
     },
     {
@@ -84,24 +86,15 @@ const Users = () => {
       align: 'left',
     },
     {
-      field: 'deposite_balance',
-      headerName: 'Deposit',
-      headerAlign: 'left',
-      flex: 1,
-      renderCell: ({ row: { deposite_balance } }) => {
-        return <Typography>{formatter.format(deposite_balance)}</Typography>;
-      },
-    },
-    {
-      field: 'country',
-      headerName: 'country',
+      field: 'city',
+      headerName: 'Location',
       headerAlign: 'left',
       flex: 1,
       align: 'left',
     },
     {
-      field: 'phone',
-      headerName: 'Phone',
+      field: 'country',
+      headerName: 'Country',
       headerAlign: 'left',
       flex: 1,
       align: 'left',
@@ -146,19 +139,19 @@ const Users = () => {
             justifyContent="space-between"
             borderRadius="4px"
           >
-            <Link to={`/user-profile/${params.row._id}`}>
+            <Link to={`/member-profile/${params.row._id}`}>
               <IconButton>
                 <RemoveRedEyeOutlined sx={{ color: `${colors.grey[100]} !important` }} />
               </IconButton>
             </Link>
-            <Link to={`/edit-user/${params.row._id}`}>
+            <Link to={`/edit-member/${params.row._id}`}>
               <IconButton>
                 <EditOutlinedIcon sx={{ color: `${colors.grey[100]} !important` }} />
               </IconButton>
             </Link>
             <IconButton
               onClick={() => {
-                deleteUser(params.row._id);
+                deleteMember(params.row._id);
               }}
             >
               <DeleteOutlinedIcon />
@@ -171,15 +164,15 @@ const Users = () => {
 
   return (
     <>
-      <Head pageTitle="Users" />
+      <Head pageTitle="Members" />
       <Sidebar />
       <main className="content">
         <Topbar />
         <Box className="main" m="20px">
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="USERS" subtitle="Managing the useraccounts" />
+            <Header title="Members" subtitle="Managing the registered members" />
             <Box>
-              <LinkButton to="/add-user" title="Add New User" type="user" />
+              <LinkButton to="/add-member" title="Add New Member" type="user" />
             </Box>
           </Box>
           <Box
@@ -242,4 +235,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Members;

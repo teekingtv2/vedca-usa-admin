@@ -13,44 +13,43 @@ import useFetchCredential from '../../api/useFetchCredential';
 import Head from '../../components/global/Head';
 import Sidebar from '../../components/global/sidebar/Sidebar';
 import Topbar from '../../components/global/Topbar';
-import { errorNotification, formatter, successNotification } from '../../utils/helpers';
+import {
+  dateFormatter,
+  errorNotification,
+  formatter,
+  successNotification,
+} from '../../utils/helpers';
 import LinkButton from '../../components/global/LinkButton';
 import ProgressCircle from '../../components/dashboard/ProgressCircle';
 
 axios.defaults.withCredentials = true;
 
-const UserTransactions = () => {
+const Donations = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { data, loading, error } = useFetchCredential(`user-management/fetch-all-transactions`);
-
-  const deleteTransaction = async (id) => {
-    try {
-      await axios
-        .delete(`${import.meta.env.VITE_API_URL}/user-management/delete-transaction/${id}`, {
-          withCredentials: true,
-        })
-        .then((response) => {
-          console.log('response', response);
-          if (response.status === 200) {
-            successNotification('Successfully deleted the transaction record');
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
-          }
-        });
-    } catch (error) {
-      errorNotification(error?.response?.data?.error);
-    }
-  };
+  const { data, loading, error } = useFetchCredential(`general/all-donations`);
 
   console.log('data:', data?.data);
 
   const columns = [
     {
-      field: 'name',
-      headerName: 'Owner',
+      field: 'createdAt',
+      headerName: 'Date',
       flex: 1,
+      renderCell: ({ row: { createdAt } }) => {
+        return <Box>{dateFormatter(createdAt)}</Box>;
+      },
+    },
+    {
+      field: 'first_name',
+      headerName: 'First Name',
+      flex: 0.7,
+      cellClassName: 'name-column--cell',
+    },
+    {
+      field: 'last_name',
+      headerName: 'Last name',
+      flex: 0.7,
       cellClassName: 'name-column--cell',
     },
     {
@@ -61,27 +60,12 @@ const UserTransactions = () => {
       align: 'left',
     },
     {
-      field: 'transaction_amount',
+      field: 'amount',
       headerName: 'Amount',
       flex: 1,
-      renderCell: ({ row: { transaction_amount } }) => {
-        return <Box>{formatter.format(transaction_amount)}</Box>;
+      renderCell: ({ row: { amount } }) => {
+        return <Box>{formatter.format(amount)}</Box>;
       },
-    },
-    {
-      field: 'wallet_balance',
-      headerName: 'Balance',
-      flex: 1,
-      renderCell: ({ row: { wallet_balance } }) => {
-        return <Box>{formatter.format(wallet_balance)}</Box>;
-      },
-    },
-    {
-      field: 'type',
-      headerName: 'Transaction',
-      headerAlign: 'left',
-      flex: 0.7,
-      align: 'left',
     },
     {
       headerName: 'Actions',
@@ -97,23 +81,11 @@ const UserTransactions = () => {
             justifyContent="space-between"
             borderRadius="4px"
           >
-            <Link to={`/transaction-details/${params.row._id}`}>
+            <Link to={`/donation-details/${params.row._id}`}>
               <IconButton>
                 <RemoveRedEyeOutlined sx={{ color: `${colors.grey[100]} !important` }} />
               </IconButton>
             </Link>
-            <Link to={`/edit-transaction/${params.row._id}`}>
-              <IconButton>
-                <EditOutlinedIcon sx={{ color: `${colors.grey[100]} !important` }} />
-              </IconButton>
-            </Link>
-            <IconButton
-              onClick={() => {
-                deleteTransaction(params.row._id);
-              }}
-            >
-              <DeleteOutlinedIcon />
-            </IconButton>
           </Box>
         );
       },
@@ -122,13 +94,13 @@ const UserTransactions = () => {
 
   return (
     <>
-      <Head pageTitle="Transactions" />
+      <Head pageTitle="Donations" />
       <Sidebar />
       <main className="content">
         <Topbar />
         <Box className="main" m="20px">
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="TRANSACTIONS" subtitle="Managing the user transactions" />
+            <Header title="DONATIONS" subtitle="Managing the donations we have received" />
           </Box>
           <Box
             m="40px 0 0 0"
@@ -190,4 +162,4 @@ const UserTransactions = () => {
   );
 };
 
-export default UserTransactions;
+export default Donations;

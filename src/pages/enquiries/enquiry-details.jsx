@@ -1,5 +1,4 @@
-import { Box, Typography, Card, useTheme, Badge, useMediaQuery } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Typography, Card, useTheme, useMediaQuery } from '@mui/material';
 import { tokens } from '../../theme';
 import Header from '../../components/global/Header';
 import { useParams } from 'react-router-dom';
@@ -7,39 +6,37 @@ import useFetchCredential from '../../api/useFetchCredential';
 import Head from '../../components/global/Head';
 import Sidebar from '../../components/global/sidebar/Sidebar';
 import Topbar from '../../components/global/Topbar';
-import { formatter } from '../../utils/helpers';
-import LinkButton from '../../components/global/LinkButton';
 import ProgressCircle from '../../components/dashboard/ProgressCircle';
 
-const TransactionDetails = () => {
+const EnquiryDetails = () => {
   const isNoneMobile = useMediaQuery('(min-width:600px)');
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { id } = useParams();
-  const { data, loading, error } = useFetchCredential(
-    `user-management/fetch-single-transaction/${id}`
-  );
+  const { data, loading, error } = useFetchCredential(`general/single-contact/${id}`);
 
   return (
     <>
-      <Head pageTitle="Transaction Details" />
+      <Head pageTitle="Ad Post" />
       <Sidebar />
       <main className="content">
         <Topbar />
         <Box className="main" m="20px">
           <Box>
             <Header
-              title={`Details of - ${
-                data ? data.data.name.split(' ')[0] + "'s Transaction" : 'User Transaction Details'
+              title={`Managing enquiry made by - ${
+                data ? data.data.first_name : 'Managing Ad Post'
               }`}
-              subtitle={`Here is the transaction details for ${data && data.data.name}`}
+              subtitle={`You can manage this enquiry made by ${
+                data && data.data.first_name
+              } from here`}
             />
           </Box>
 
           <Box marginTop="60px" display="flex" justifyContent="center" alignItems="center">
             <Box
               backgroundColor={colors.primary[400]}
-              width={isNoneMobile ? '50%' : '100%'}
+              width={isNoneMobile ? '60%' : '100%'}
               sx={{
                 margin: '0px 0px 50px 0px',
               }}
@@ -65,77 +62,19 @@ const TransactionDetails = () => {
                     }}
                   >
                     <Box
-                      display="flex"
-                      justifyContent="space-between"
+                      // display="flex"
+                      justifyContent="center"
                       padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                      sx={{
+                        border: `1px dashed ${colors.grey[600]}`,
+                        margin: '5px 0',
+                        textAlign: 'center',
+                      }}
                     >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>User:</Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {data.data.name}
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Email:</Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {data.data.email}
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>
-                        Transaction Amount:
-                      </Typography>
                       <Typography
-                        sx={{
-                          color: `${colors.greenAccent[200]}`,
-                          fontWeight: '600',
-                          fontSize: '18px',
-                        }}
+                        sx={{ color: `${colors.grey[200]}`, fontSize: '24px', fontWeight: '600' }}
                       >
-                        {formatter.format(data.data.transaction_amount)}
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Profit Amount:</Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {formatter.format(data.data.profit_amount)}
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Wallet Balance:</Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {formatter.format(data.data.wallet_balance)}
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Phone Number:</Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {data.data.phone}
+                        Made on {data.data.createdAt}
                       </Typography>
                     </Box>
 
@@ -145,12 +84,71 @@ const TransactionDetails = () => {
                       padding="5px"
                       sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
                     >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>
-                        Transaction Type:
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Made By:</Typography>
+                      <Typography sx={{ color: `${colors.greenAccent[600]}`, fontWeight: '600' }}>
+                        {`${data.data.first_name} ${data.data.last_name}`}
                       </Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {data.data.type}
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      padding="5px"
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                    >
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Email:</Typography>
+                      <Typography sx={{ color: `${colors.greenAccent[600]}`, fontWeight: '600' }}>
+                        {data.data.email}
                       </Typography>
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      padding="5px"
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                    >
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Phone Number:</Typography>
+                      <Typography sx={{ color: `${colors.greenAccent[600]}`, fontWeight: '600' }}>
+                        {data.data.phone}
+                      </Typography>
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      padding="5px"
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                    >
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Location:</Typography>
+                      <Typography sx={{ color: `${colors.greenAccent[600]}`, fontWeight: '600' }}>
+                        {data.data.address}
+                      </Typography>
+                    </Box>
+                    <Box
+                      justifyContent="space-between"
+                      padding="5px"
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                    >
+                      <Typography
+                        sx={{ color: `${colors.grey[200]}` }}
+                        style={{ marginBottom: '10px' }}
+                      >
+                        Query:
+                      </Typography>
+                      <Typography sx={{ color: `${colors.greenAccent[600]}`, fontWeight: '600' }}>
+                        {data.data.question}
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      padding="5px"
+                      sx={{ margin: '20px 0' }}
+                    >
+                      {/* <LinkButton
+                        to={`/edit-ad-post/${data.data._id}`}
+                        title="Edit Add"
+                        type="pen"
+                      /> */}
                     </Box>
                   </Box>
                 </Card>
@@ -163,4 +161,4 @@ const TransactionDetails = () => {
   );
 };
 
-export default TransactionDetails;
+export default EnquiryDetails;

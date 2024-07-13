@@ -15,7 +15,7 @@ const RowTwoRevenue = () => {
             Investments Chart
           </Typography>
           <Typography variant="h3" fontWeight="bold" color={colors.greenAccent[500]}>
-            $59,342.32
+            $xx,xxx.xx
           </Typography>
         </Box>
         <Box>

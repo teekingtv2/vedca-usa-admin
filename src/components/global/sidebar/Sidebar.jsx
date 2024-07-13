@@ -13,7 +13,7 @@ import MenuItemComp from './MenuItemComp';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import axios from 'axios';
 import { errorNotification, successNotification } from '../../../utils/helpers';
-import { AdUnitsOutlined, Person2Outlined, WalletOutlined } from '@mui/icons-material';
+import { Person2Outlined } from '@mui/icons-material';
 import useFetchCredential from '../../../api/useFetchCredential';
 import ProgressCircle from '../../dashboard/ProgressCircle';
 import { useNavigate } from 'react-router-dom';
@@ -80,8 +80,8 @@ const Sidebar = () => {
               <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
                 <img
                   alt="admin avatar"
-                  height="50px"
-                  width="100px"
+                  height="60px"
+                  width="60px"
                   src="/assets/images/logo.png"
                   style={{ cursor: 'pointer' }}
                 />
@@ -123,7 +123,7 @@ const Sidebar = () => {
                 </Box>
               )}
               {loading && <ProgressCircle progress="0.5" />}
-              {error && <div style={{ color: 'red !important', fontSize: '20px' }}>{error}</div>}
+              {error && <div style={{ color: 'red !important', fontSize: '18px' }}>{error}</div>}
             </Box>
           )}
 
@@ -141,8 +141,15 @@ const Sidebar = () => {
               Urgent Requests
             </Typography>
             <MenuItemComp
-              title="Transactions"
-              to="/transactions"
+              title="Donations"
+              to="/donations"
+              icon={<NotificationImportantOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <MenuItemComp
+              title="Enquiries"
+              to="/enquiries"
               icon={<NotificationImportantOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -152,13 +159,6 @@ const Sidebar = () => {
               Data
             </Typography>
             <MenuItemComp
-              title="Manage Ad Posts"
-              to="/ad-posts"
-              icon={<AdUnitsOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <MenuItemComp
               title="Manage Team"
               to="/admins"
               icon={<PeopleOutlinedIcon />}
@@ -166,8 +166,8 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <MenuItemComp
-              title="Users Information"
-              to="/users"
+              title="Members Information"
+              to="/members"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -176,13 +176,6 @@ const Sidebar = () => {
             <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
               Settings
             </Typography>
-            <MenuItemComp
-              title="Manage Wallet"
-              to="/wallet"
-              icon={<WalletOutlined />}
-              selected={selected}
-              setSelected={setSelected}
-            />
             <MenuItemComp
               title="Edit Profile"
               to="/profile/edit"

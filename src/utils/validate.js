@@ -13,64 +13,43 @@ export const validateLogin = () => {
 };
 
 export const validateAddUser = () => {
-  const phoneRegExp = /^[\+][0-9]{7,15}$/;
+  const phoneRegExp = /^[\d|\+|\(]+[\)|\d|\s|-]*[\d]$/;
   const validationSchema = yup.object({
-    name: yup.string().trim().required('Name is missing'),
+    title: yup.string().trim().required('Please select your title'),
+    first_name: yup.string().trim().required('First Name is missing'),
+    last_name: yup.string().trim().required('Last Name is missing'),
     email: yup.string().email('Invalid email').required('Email is missing'),
     phone: yup
       .string()
-      .matches(phoneRegExp, 'Invalid phone number. Follow the sample (+11255678765)')
+      .matches(phoneRegExp, 'Invalid phone number. Follow the sample: +11255678765')
       .required('Phone number is missing'),
-    wallet: yup.string().trim().required('wallet is missing'),
-    network: yup.string().trim().required('Blockchain network is missing'),
-    country: yup.string().trim().required('Please select your country'),
-    password: yup.string().trim().min(8, 'Password is too short').required('Password is missing'),
-    confirmPassword: yup
-      .string()
-      .required('Confirm Account Password')
-      .oneOf([yup.ref('password'), null], 'Passwords must match'),
+    address: yup.string().trim().required('Your address is missing'),
+    city: yup.string().trim().required('In which city do you live?'),
+    state: yup.string().trim().required('YWhat state?'),
+    zip_code: yup.string().trim().required('Zip code is missing'),
+    country: yup.string().trim().required('Select the country of residence'),
+    info: yup.string().trim().required('Tell us about yourself'),
   });
   return validationSchema;
 };
 
 export const validateUpdateUser = () => {
-  const phoneRegExp = /^[\+][0-9]{7,15}$/;
+  const phoneRegExp = /^[\d|\+|\(]+[\)|\d|\s|-]*[\d]$/;
   const validationSchema = yup.object({
-    name: yup.string().trim().required('Name is missing'),
-    network: yup.string().trim().required('Select blockchain network'),
-    wallet: yup.string().trim().required('Wallet address is missing'),
-    country: yup.string().trim().required('Please select your country'),
+    title: yup.string().trim().required('Please select your title'),
+    first_name: yup.string().trim().required('First Name is missing'),
+    last_name: yup.string().trim().required('Last Name is missing'),
+    email: yup.string().email('Invalid email').required('Email is missing'),
     phone: yup
       .string()
-      .matches(phoneRegExp, 'Invalid phone number. Follow the sample')
+      .matches(phoneRegExp, 'Invalid phone number. Follow the sample: +11255678765')
       .required('Phone number is missing'),
-  });
-  return validationSchema;
-};
-
-export const validateUpdateUserBalance = () => {
-  const validationSchema = yup.object({
-    deposite_balance: yup.string().trim().required('Deposit balance is missing'),
-    total_balance: yup.string().trim().required('Wallet total balance is missing'),
-    profit_balance: yup.string().trim().required('Profit profit is missing '),
-  });
-  return validationSchema;
-};
-
-export const validateAddUserTransaction = () => {
-  const validationSchema = yup.object({
-    transaction_amount: yup.string().trim().required('Transaction amount is missing'),
-    wallet_balance: yup.string().trim().required('Wallet balance is missing'),
-    type: yup.string().trim().required('Please select transaction type '),
-  });
-  return validationSchema;
-};
-
-export const validateEditTransaction = () => {
-  const validationSchema = yup.object({
-    transaction_amount: yup.string().trim().required('Transaction amount is missing'),
-    wallet_balance: yup.string().trim().required('Wallet balance is missing'),
-    profit_amount: yup.string().trim().required('Profit amount is missing '),
+    address: yup.string().trim().required('Your address is missing'),
+    city: yup.string().trim().required('In which city do you live?'),
+    state: yup.string().trim().required('YWhat state?'),
+    zip_code: yup.string().trim().required('Zip code is missing'),
+    country: yup.string().trim().required('Select the country of residence'),
+    info: yup.string().trim().required('Tell us about yourself'),
   });
   return validationSchema;
 };
@@ -137,36 +116,6 @@ export const validateUpdateAdmin = () => {
   const validationSchema = yup.object({
     username: yup.string().trim().required('Name is missing'),
     email: yup.string().email('Invalid email').required('Email is missing'),
-  });
-  return validationSchema;
-};
-export const validateUpdateWallet = () => {
-  const validationSchema = yup.object({
-    erc20: yup.string().trim().required('erc20 wallet address is missing'),
-    bitcoin: yup.string().trim().required('bitcoin wallet address is missing'),
-  });
-  return validationSchema;
-};
-
-export const validateCreateAdPost = () => {
-  const validationSchema = yup.object({
-    title: yup.string().trim().required('Post title is missing'),
-    whatsapp: yup.string().trim().required('Whatsapp group link is missing'),
-    telegram: yup.string().trim().required('Telegram group link is missing'),
-  });
-  return validationSchema;
-};
-export const validateUpdateAdPost = () => {
-  const linkValid = /^[a-zA-Z0-9\-]+$/;
-  const validationSchema = yup.object({
-    title: yup.string().trim().required('Post title is missing'),
-    whatsapp: yup.string().trim().required('Whatsapp group link is missing'),
-    telegram: yup.string().trim().required('Telegram group link is missing'),
-    slug: yup
-      .string()
-      .trim()
-      .matches(linkValid, 'Invalid ad link. Can contain alphabets, numbers and -')
-      .required('Ad page link is missing'),
   });
   return validationSchema;
 };

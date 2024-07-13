@@ -9,23 +9,17 @@ import Admins from './pages/admins/index.jsx';
 import AddAdmin from './pages/admins/AddAdmin.jsx';
 import AdminProfile from './pages/admins/admin-profile.jsx';
 import EditAdmin from './pages/admins/edit-admin.jsx';
-import Users from './pages/users/index.jsx';
-import AddUser from './pages/users/add-user.jsx';
-import UserProfile from './pages/users/user-profile.jsx';
-import EditUser from './pages/users/edit-user.jsx';
-import UserTransactions from './pages/transactions/index.jsx';
-import AddTransaction from './pages/transactions/add-transaction.jsx';
-import EditTransaction from './pages/transactions/edit-transaction.jsx';
-import TransactionDetails from './pages/transactions/transaction-details.jsx';
-import EditUserBalance from './pages/users/edit-balance.jsx';
 import Login from './pages/auth/login/index.jsx';
 import Profile from './pages/settings/profile.jsx';
 import EditProfile from './pages/settings/edit-profile.jsx';
-import WalletAddress from './pages/settings/wallet-address.jsx';
-import AdPosts from './pages/ads/index.jsx';
-import SingleAdPost from './pages/ads/single-ad-post.jsx';
-import CreateAdPost from './pages/ads/create-ad-post.jsx';
-import EditAdPost from './pages/ads/edit-ad-post.jsx';
+import Donations from './pages/donations/index.jsx';
+import DonationDetails from './pages/donations/donation-details.jsx';
+import Enquiries from './pages/enquiries/index.jsx';
+import EnquiryDetails from './pages/enquiries/enquiry-details.jsx';
+import Members from './pages/members/index.jsx';
+import MemberProfile from './pages/members/member-profile.jsx';
+import EditMember from './pages/members/edit-member.jsx';
+import AddMember from './pages/members/add-member.jsx';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -58,25 +52,19 @@ function App() {
               <Route path="/admin-profile/:id" element={<AdminProfile />} />
               <Route path="/edit-profile/:id" element={<EditAdmin />} />
 
-              <Route path="/users" element={<Users />} />
-              <Route path="/add-user" element={<AddUser />} />
-              <Route path="/user-profile/:id" element={<UserProfile />} />
-              <Route path="/edit-user/:id" element={<EditUser />} />
-              <Route path="/update-balance/:id" element={<EditUserBalance />} />
+              <Route path="/members" element={<Members />} />
+              <Route path="/add-member" element={<AddMember />} />
+              <Route path="/member-profile/:id" element={<MemberProfile />} />
+              <Route path="/edit-member/:id" element={<EditMember />} />
 
-              <Route path="/transactions" element={<UserTransactions />} />
-              <Route path="/add-transaction/:id" element={<AddTransaction />} />
-              <Route path="/edit-transaction/:id" element={<EditTransaction />} />
-              <Route path="/transaction-details/:id" element={<TransactionDetails />} />
+              <Route path="/donations" element={<Donations />} />
+              <Route path="/donation-details/:id" element={<DonationDetails />} />
+
+              <Route path="/enquiries" element={<Enquiries />} />
+              <Route path="/enquiry-details/:id" element={<EnquiryDetails />} />
 
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/edit" element={<EditProfile />} />
-              <Route path="/wallet" element={<WalletAddress />} />
-
-              <Route path="/ad-posts" element={<AdPosts />} />
-              <Route path="/ad-post/:id" element={<SingleAdPost />} />
-              <Route path="/create-ad-post" element={<CreateAdPost />} />
-              <Route path="/edit-ad-post/:id" element={<EditAdPost />} />
 
               <Route path="/*" element={<NotFound />} />
             </Routes>

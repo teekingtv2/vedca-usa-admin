@@ -8,27 +8,34 @@ export const loginValues = () => {
 
 export const addUserValues = () => {
   const initialValues = {
-    name: '',
+    title: '',
+    first_name: '',
+    last_name: '',
     email: '',
     phone: '',
-    wallet: '',
+    address: '',
+    city: '',
+    state: '',
+    zip_code: '',
     country: '',
-    password: '',
-    confirmPassword: '',
+    info: '',
   };
   return initialValues;
 };
 
 export const updateUserValues = (data) => {
   const initialValues = {
-    name: data ? data.name : '',
+    title: data ? data.title : '',
+    first_name: data ? data.first_name : '',
+    last_name: data ? data.last_name : '',
     email: data ? data.email : '',
     phone: data ? data.phone : '',
-    wallet: data ? data.wallet : '',
-    network: data ? data.network : '',
+    address: data ? data.address : '',
+    city: data ? data.city : '',
+    state: data ? data.state : '',
+    zip_code: data ? data.zip_code : '',
     country: data ? data.country : '',
-    password: '',
-    confirmPassword: '',
+    info: data ? data.info : '',
   };
   return initialValues;
 };

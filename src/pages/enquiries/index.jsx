@@ -1,36 +1,30 @@
-import { Typography, Box, IconButton, useTheme } from '@mui/material';
+import { Box, IconButton, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '../../theme';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import RemoveRedEyeOutlined from '@mui/icons-material/RemoveRedEyeOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import PersonAddOutlined from '@mui/icons-material/PersonAddOutlined';
 import Header from '../../components/global/Header';
-import styled from 'styled-components';
 
 import axios from 'axios';
 import useFetchCredential from '../../api/useFetchCredential';
 import Head from '../../components/global/Head';
 import Sidebar from '../../components/global/sidebar/Sidebar';
 import Topbar from '../../components/global/Topbar';
-import { errorNotification, formatter, successNotification } from '../../utils/helpers';
-import LinkButton from '../../components/global/LinkButton';
+import { dateFormatter, errorNotification, successNotification } from '../../utils/helpers';
 import ProgressCircle from '../../components/dashboard/ProgressCircle';
 
 axios.defaults.withCredentials = true;
 
-const AdPosts = () => {
+const Enquiries = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { data, loading, error } = useFetchCredential(`general/all-ad-posts`);
+  const { data, loading, error } = useFetchCredential(`general/all-contacts`);
 
-  const deleteAdPost = async (id) => {
+  const deleteEnquiry = async (id) => {
     try {
       await axios
-        .delete(`${import.meta.env.VITE_API_URL}/general/delete-ad-post/${id}`, {
+        .delete(`${import.meta.env.VITE_API_URL}/general/delete-contact/${id}`, {
           withCredentials: true,
         })
         .then((response) => {
@@ -49,14 +43,28 @@ const AdPosts = () => {
 
   const columns = [
     {
-      field: 'title',
-      headerName: 'Ad Title',
-      flex: 2,
+      field: 'createdAt',
+      headerName: 'Made On',
+      flex: 1,
+      renderCell: ({ row: { createdAt } }) => {
+        return <Box>{dateFormatter(createdAt)}</Box>;
+      },
+    },
+    {
+      field: 'first_name',
+      headerName: 'First Name',
+      flex: 0.7,
       cellClassName: 'name-column--cell',
     },
     {
-      field: 'slug',
-      headerName: 'Ad Link',
+      field: 'last_name',
+      headerName: 'Last name',
+      flex: 0.7,
+      cellClassName: 'name-column--cell',
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
       headerAlign: 'left',
       flex: 1,
       align: 'left',
@@ -75,19 +83,14 @@ const AdPosts = () => {
             justifyContent="space-between"
             borderRadius="4px"
           >
-            <Link to={`/ad-post/${params.row._id}`}>
+            <Link to={`/enquiry-details/${params.row._id}`}>
               <IconButton>
                 <RemoveRedEyeOutlined sx={{ color: `${colors.grey[100]} !important` }} />
               </IconButton>
             </Link>
-            <Link to={`/edit-ad-post/${params.row._id}`}>
-              <IconButton>
-                <EditOutlinedIcon sx={{ color: `${colors.grey[100]} !important` }} />
-              </IconButton>
-            </Link>
             <IconButton
               onClick={() => {
-                deleteAdPost(params.row._id);
+                deleteEnquiry(params.row._id);
               }}
             >
               <DeleteOutlinedIcon />
@@ -107,12 +110,9 @@ const AdPosts = () => {
         <Box className="main" m="20px">
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Header
-              title="AD POSTS MANAGEMENT"
-              subtitle="You can manage; create update and delete ad posts from here"
+              title="Enquiries"
+              subtitle="You can manage all enquiries made by people through the website from here"
             />
-            <Box>
-              <LinkButton to="/create-ad-post" title="Create New Ad" type="add" />
-            </Box>
           </Box>
           <Box
             m="40px 0 0 0"
@@ -174,4 +174,4 @@ const AdPosts = () => {
   );
 };
 
-export default AdPosts;
+export default Enquiries;

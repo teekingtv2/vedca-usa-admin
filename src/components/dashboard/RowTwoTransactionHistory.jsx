@@ -9,7 +9,7 @@ const RowTwoTransactionHistory = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { data, loading, error } = useFetchCredential(`user-management/fetch-all-transactions`);
+  const { data, loading, error } = useFetchCredential(`general/all-donations`);
 
   return (
     <Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.primary[400]} overflow="auto">
@@ -22,14 +22,14 @@ const RowTwoTransactionHistory = () => {
         p="15px"
       >
         <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-          Recent Transactions
+          Recent Donations
         </Typography>
       </Box>
       {data &&
         data.data
           .sort((a, b) => b._id - a._id)
-          .map((transaction, i) => {
-            var dateString = new Date(transaction.createdAt).toString();
+          .map((donation, i) => {
+            var dateString = new Date(donation.createdAt).toString();
             var splittedDateString = dateString.split(' ');
             var day = splittedDateString[0];
             var day2 = splittedDateString[1];
@@ -47,13 +47,13 @@ const RowTwoTransactionHistory = () => {
               >
                 <Box>
                   <Typography color={colors.greenAccent[500]} variant="h5" fontWeight="600">
-                    {transaction.name}
+                    {`${donation.first_name} ${donation.last_name}`}
                   </Typography>
-                  <Typography color={colors.grey[100]}>{transaction.email}</Typography>
+                  <Typography color={colors.grey[100]}>{donation.email}</Typography>
                 </Box>
                 <Box color={colors.grey[100]}>{subDate}</Box>
                 <Box backgroundColor={colors.greenAccent[500]} p="5px 10px" borderRadius="4px">
-                  {formatter.format(transaction.transaction_amount)}
+                  {formatter.format(donation.amount)}
                 </Box>
               </Box>
             );
@@ -62,7 +62,7 @@ const RowTwoTransactionHistory = () => {
       {error && <div style={{ color: 'red !important', fontSize: '25px' }}>{error}</div>}
       <Box sx={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
         <Link
-          to="/transactions"
+          to="/donations"
           style={{
             color: '#fff',
             fontSize: '18px',

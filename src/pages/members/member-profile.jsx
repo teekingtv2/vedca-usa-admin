@@ -7,6 +7,7 @@ import {
   Badge,
   Avatar,
   useMediaQuery,
+  Button,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { tokens } from '../../theme';
@@ -16,10 +17,12 @@ import useFetchCredential from '../../api/useFetchCredential';
 import Head from '../../components/global/Head';
 import Sidebar from '../../components/global/sidebar/Sidebar';
 import Topbar from '../../components/global/Topbar';
-import { formatter, successNotification } from '../../utils/helpers';
+import { dateFormatter, errorNotification, successNotification } from '../../utils/helpers';
 import LinkButton from '../../components/global/LinkButton';
 import ProgressCircle from '../../components/dashboard/ProgressCircle';
-
+import { Person2Outlined, PersonOffOutlined } from '@mui/icons-material';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: '#44b700',
@@ -49,37 +52,71 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const UserProfile = () => {
+const MemberProfile = () => {
   const isNoneMobile = useMediaQuery('(min-width:600px)');
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { id } = useParams();
-  const { data, loading, error } = useFetchCredential(`user-management/fetch-single-user/${id}`);
+  const { data, loading, error } = useFetchCredential(
+    `member-management/fetch-single-member/${id}`
+  );
 
-  const copyText = () => {
-    const txt = data && data.data.wallet;
-    const input = document.createElement('input');
-    input.value = txt;
-    document.body.appendChild(input);
-    input.select();
-    document.execCommand('copy');
-    document.body.removeChild(input);
-    successNotification(`${data && data.data.network} wallet address copied`);
+  const activateMember = async (id) => {
+    console.log('clicked');
+    console.log(id);
+    try {
+      await axios
+        .put(`${import.meta.env.VITE_API_URL}/member-management/activate-member/${id}`, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log('done');
+          console.log('response', response);
+          if (response.status === 200) {
+            successNotification('Member status has been successfully activated');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          }
+        });
+    } catch (error) {
+      console.log('error');
+      console.log(error);
+      errorNotification(error?.response?.data?.error);
+    }
+  };
+
+  const pendMember = async (id) => {
+    try {
+      await axios
+        .put(`${import.meta.env.VITE_API_URL}/member-management/pend-member/${id}`, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log('response', response);
+          if (response.status === 200) {
+            successNotification('Member status has been successfully pended');
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          }
+        });
+    } catch (error) {
+      errorNotification(error?.response?.data?.error);
+    }
   };
 
   return (
     <>
-      <Head pageTitle="User Account" />
+      <Head pageTitle="Member account" />
       <Sidebar />
       <main className="content">
         <Topbar />
         <Box className="main" m="20px">
           <Box>
             <Header
-              title={`User - ${
-                data ? data.data.name.split(' ')[0] + "'s Profile" : 'User Profile'
-              }`}
-              subtitle={`Here is the User Profile Page for ${data && data.data.name}`}
+              title={`Member - ${data ? data.data.first_name + "'s Profile" : 'User Profile'}`}
+              subtitle={`Here is the User Profile Page for ${data && data.data.first_name}`}
             />
           </Box>
 
@@ -128,13 +165,13 @@ const UserProfile = () => {
                       </Link>
                     </StyledBadge>
                     <CardContent sx={{ flex: '1 0 auto' }}>
-                      <Typography variant="h5">{data.data.fullName}</Typography>
+                      <Typography variant="h5">{`${data.data.first_name} ${data.data.first_name}`}</Typography>
                       <Typography
                         sx={{
                           color: `${colors.grey[200]}`,
                         }}
                       >
-                        Access level: User
+                        Access level: Member
                       </Typography>
                     </CardContent>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -167,7 +204,18 @@ const UserProfile = () => {
                     >
                       <Typography sx={{ color: `${colors.grey[200]}` }}>Name:</Typography>
                       <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {data.data.name}
+                        {`${data.data.first_name} ${data.data.first_name}`}
+                      </Typography>
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      padding="5px"
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                    >
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Joined On:</Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
+                        {dateFormatter(data.data.createdAt)}
                       </Typography>
                     </Box>
                     <Box
@@ -179,6 +227,28 @@ const UserProfile = () => {
                       <Typography sx={{ color: `${colors.grey[200]}` }}>Email:</Typography>
                       <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
                         {data.data.email}
+                      </Typography>
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      padding="5px"
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                    >
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Location:</Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
+                        {`${data.data.address}, ${data.data.city}, ${data.data.state}`}
+                      </Typography>
+                    </Box>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      padding="5px"
+                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
+                    >
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Zip Code:</Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
+                        {data.data.zip_code}
                       </Typography>
                     </Box>
                     <Box
@@ -209,67 +279,9 @@ const UserProfile = () => {
                       padding="5px"
                       sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
                     >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Wallet:</Typography>
-                      <Typography
-                        onClick={copyText}
-                        sx={{ color: `${colors.greenAccent[200]}`, fontWeight: '600' }}
-                      >
-                        {data.data.wallet}
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Chain network:</Typography>
+                      <Typography sx={{ color: `${colors.grey[200]}` }}>Info:</Typography>
                       <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {data.data.network}
-                      </Typography>
-                    </Box>
-
-                    <Box textAlign="center" padding="5px" sx={{ margin: '20px 0 5px 0px' }}>
-                      <Typography
-                        sx={{ color: `${colors.grey[200]}`, fontWeight: 'bold', fontSize: '20px' }}
-                      >
-                        Account Balances
-                      </Typography>
-                    </Box>
-
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>
-                        Total Deposited:
-                      </Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {formatter.format(data.data.deposite_balance)}
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Total Profit:</Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {formatter.format(data.data.profit_balance)}
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      padding="5px"
-                      sx={{ border: `1px dashed ${colors.grey[600]}`, margin: '5px 0' }}
-                    >
-                      <Typography sx={{ color: `${colors.grey[200]}` }}>Total Balance:</Typography>
-                      <Typography sx={{ color: `${colors.grey[200]}`, fontWeight: '600' }}>
-                        {formatter.format(data.data.total_balance)}
+                        {data.data.info}
                       </Typography>
                     </Box>
 
@@ -279,18 +291,53 @@ const UserProfile = () => {
                       padding="5px"
                       sx={{ margin: '20px 0' }}
                     >
+                      {data.data.status === 'Active' ? (
+                        <Button
+                          onClick={() => {
+                            pendMember(data.data._id);
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              backgroundColor: colors.redAccent[700],
+                              color: colors.grey[100],
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              gap: '8px',
+                              textTransform: 'initial',
+                            }}
+                            className="btn"
+                          >
+                            <PersonOffOutlined />
+                            <Typography>Pend Member</Typography>
+                          </Box>
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            activateMember(data.data._id);
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              backgroundColor: colors.greenAccent[700],
+                              color: colors.grey[100],
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              gap: '8px',
+                              textTransform: 'initial',
+                            }}
+                            className="btn"
+                          >
+                            <Person2Outlined />
+                            <Typography>Activate Member</Typography>
+                          </Box>
+                        </Button>
+                      )}
                       <LinkButton
-                        to={`/add-transaction/${data.data._id}`}
-                        title="Add Transaction"
-                        type="add"
-                      />
-                      <LinkButton
-                        to={`/update-balance/${data.data._id}`}
-                        title="Update Balance"
-                        type="user"
-                      />
-                      <LinkButton
-                        to={`/edit-user/${data.data._id}`}
+                        to={`/edit-member/${data.data._id}`}
                         title="Edit Profile"
                         type="user"
                       />
@@ -306,4 +353,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default MemberProfile;

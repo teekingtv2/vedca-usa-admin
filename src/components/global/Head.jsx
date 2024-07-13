@@ -4,18 +4,14 @@ import { Helmet } from 'react-helmet';
 const Head = ({ pageTitle }) => {
   return (
     <Helmet>
-      <title>Hedge Funds - {pageTitle}</title>
+      <title>VADCA USA - {pageTitle}</title>
       <meta
         name="description"
-        content={`$Hedge Funds is a cryptocurrency investment trading platform that provides high Returns on Invesments for investors.`}
-      />
-      <meta
-        name="keywords"
-        content="Crypto investments, Cryptocurrency trading groups, trading groups, premium trading groups"
+        content={`Welcome to the Vengo Development & Cultural Association USA (VEDCAUSA), USA chapter - an NGO organisation representing the good Nigerians outside of our dear motherland.`}
       />
       <meta
         name="author"
-        content="Mudashir Tunde (Tee King) - Jaflah Software Development Company"
+        content="Mudashir Tunde (Tee King) - Jaflah Software Development Company LTD (jaflah.com.ng)"
       />
       <link rel="shortcut icon" href="/assets/images/logo.png" type="image/x-icon" />
       <meta name="theme-color" content="#040204" />

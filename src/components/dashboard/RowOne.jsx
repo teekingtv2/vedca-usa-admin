@@ -13,20 +13,20 @@ const RowOne = () => {
   const colors = tokens(theme.palette.mode);
 
   const {
-    data: userCountData,
-    loading: userCountLoading,
-    error: userCountError,
-  } = useFetchCredential(`user-management/fetch-all-users`);
+    data: memberCountData,
+    loading: memberCountLoading,
+    error: memberCountError,
+  } = useFetchCredential(`member-management/fetch-all-members`);
   const {
-    data: adCountData,
-    loading: adCountLoading,
-    error: adCountError,
-  } = useFetchCredential(`general/all-ad-posts`);
+    data: donationCountData,
+    loading: donationCountLoading,
+    error: donationCountError,
+  } = useFetchCredential(`general/all-donations`);
   const {
-    data: transactionCountData,
-    loading: transactionCountLoading,
-    error: transactionCountError,
-  } = useFetchCredential(`user-management/fetch-all-transactions`);
+    data: contactCountData,
+    loading: contactCountLoading,
+    error: contactCountError,
+  } = useFetchCredential(`general/all-contacts`);
 
   return (
     <>
@@ -39,18 +39,18 @@ const RowOne = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {userCountData && (
+        {memberCountData && (
           <StatBox
-            title={userCountData.data.length}
-            subtitle="Registered Users"
+            title={memberCountData.data.length}
+            subtitle="Registered members"
             progress="0.75"
             increase="+14%"
             icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
           />
         )}
-        {userCountLoading && <ProgressCircle progress="0.5" />}
-        {userCountError && (
-          <div style={{ color: 'red !important', fontSize: '20px' }}>{userCountError}</div>
+        {memberCountLoading && <ProgressCircle progress="0.5" />}
+        {memberCountError && (
+          <div style={{ color: 'red !important', fontSize: '20px' }}>{memberCountError}</div>
         )}
       </Box>
 
@@ -61,18 +61,18 @@ const RowOne = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {adCountData && (
+        {donationCountData && (
           <StatBox
-            title={adCountData.data.length}
-            subtitle="Ads Published"
+            title={donationCountData.data.length}
+            subtitle="Number of donations"
             progress="0.75"
             increase="+14%"
             icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
           />
         )}
-        {adCountLoading && <ProgressCircle progress="0.5" />}
-        {adCountError && (
-          <div style={{ color: 'red !important', fontSize: '20px' }}>{adCountError}</div>
+        {donationCountLoading && <ProgressCircle progress="0.5" />}
+        {donationCountError && (
+          <div style={{ color: 'red !important', fontSize: '20px' }}>{donationCountError}</div>
         )}
       </Box>
 
@@ -83,18 +83,18 @@ const RowOne = () => {
         alignItems="center"
         justifyContent="center"
       >
-        {transactionCountData && (
+        {contactCountData && (
           <StatBox
-            title={transactionCountData.data.length}
-            subtitle="Number of transactions"
+            title={contactCountData.data.length}
+            subtitle="Number of queries"
             progress="0.50"
             increase="+21%"
             icon={<PointOfSaleIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
           />
         )}
-        {transactionCountLoading && <ProgressCircle progress="0.5" />}
-        {transactionCountError && (
-          <div style={{ color: 'red !important', fontSize: '20px' }}>{transactionCountError}</div>
+        {contactCountLoading && <ProgressCircle progress="0.5" />}
+        {contactCountError && (
+          <div style={{ color: 'red !important', fontSize: '20px' }}>{contactCountError}</div>
         )}
       </Box>
     </>
